@@ -3,18 +3,41 @@
  * and open the template in the editor.
  */
 
-package net.sf.jsharing.poc;
+package net.sf.jsharing.components;
 
 import java.io.File;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 /**
  *
  * @author Pratik
  */
-public class FileInfoManager implements Serializable {
+public class TransferrableObject implements Serializable {
     private ArrayList<FileInfo> files = new ArrayList<FileInfo>();
+    private InetAddress serverAddress;
+    private int taskType;
+
+    public TransferrableObject(int taskType) {
+        this.taskType = taskType;
+    }
+
+    public InetAddress getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(InetAddress serverAddress) {
+        this.serverAddress = serverAddress;
+    }
+
+    public int getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(int taskType) {
+        this.taskType = taskType;
+    }
 
     public void addFile(File file) {
         FileInfo fi = new FileInfo();
