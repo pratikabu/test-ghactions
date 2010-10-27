@@ -1,4 +1,4 @@
-package net.sf.jsharing.poc;
+package net.sf.jsharing.network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
