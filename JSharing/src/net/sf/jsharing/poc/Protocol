@@ -1,0 +1,9 @@
+The protocol followed by the Client and Server.
+
+1. The server will send the list of files and the information related to that file, like size, folder or file.
+2. Client will selects the files which he wants to save and also specify the location of the files.
+3. The client will then reply to the server with the list of files required for download. One by one:
+3.1 The server will reply with the appropriate FileInputStream of the file.
+3.2 The client will download the files into the preferred location.
+4. Client will disconnect itself.
+5. Server will continue itself.
