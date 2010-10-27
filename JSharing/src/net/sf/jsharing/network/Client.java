@@ -1,11 +1,13 @@
 package net.sf.jsharing.network;
 
+import java.io.FileOutputStream;
 import net.sf.jsharing.components.TransferrableObject;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.controller.UsefulMethods;
 
@@ -19,8 +21,6 @@ public class Client {
     private InetAddress serverAddress;
 
     private TransferrableObject recievedTO;
-
-    private int taskType;
 
     public Client(String serverAddress, int portNumber) {
         try {
@@ -42,21 +42,10 @@ public class Client {
     public boolean triggerServerTask(TransferrableObject to) {
         boolean success;
         if(success = connectToServer()) {
-            this.taskType = to.getTaskType();
-            success = sendTransferrableObject(to);
+            sendTransferrableObject(to);
         }
 
         return success;
-    }
-
-    public void triggerClientTask() {
-        if(connectToServer()) {
-            if(taskType == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
-                recieveTransferrableObject();
-            } else if(taskType == UsefulMethods.DOWNLOAD_FILES) {
-                downloadTransferrableObject();
-            }
-        }
     }
 
     private boolean connectToServer() {
@@ -70,39 +59,57 @@ public class Client {
         }
     }
 
-    private void recieveTransferrableObject() {
-        try{
-            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-            recievedTO = (TransferrableObject)ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            recievedTO = null;
-            System.out.println("Error processing FileInfo data.");
-            System.out.println("Error Message: " + e.getMessage());
-        }
-
-    }
-
-    private void downloadTransferrableObject() {
-    }
-
-    private boolean sendTransferrableObject(TransferrableObject to) {
-        try{
-            for(FileInfo fi : to.getFiles()) {
+    private void sendTransferrableObject(TransferrableObject to) {
+        if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
+            if(!to.getFiles().isEmpty()) {
+                downloadTransferrableObject(to);
+            }
+        } else if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
+            try{
                 ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
                 oos.writeObject(to);
                 oos.close();
+                closeConnection();
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error processing FileInfo data.");
-            System.out.println("Error Message: " + e.getMessage());
-            return false;
         }
     }
 
-    public boolean closeConnection() {
+    private void downloadTransferrableObject(TransferrableObject to) {
+        for(FileInfo fi : to.getFiles()) {
+            System.out.println("Downloading: " + fi.getAbsolutePath());
+            TransferrableObject singleTO = new TransferrableObject(to.getTaskType());
+            singleTO.setServerAddress(to.getServerAddress());
+            ArrayList<FileInfo> fis = new ArrayList<FileInfo>(1);
+            fis.add(fi);
+            singleTO.setFiles(fis);
+            try {
+                if(connectToServer()) {
+                    ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+                    oos.writeObject(singleTO);
+
+                    InputStream is = clientSocket.getInputStream();
+                    FileOutputStream fos = new FileOutputStream("D:\\Download\\" + fi.getFileName());
+
+                    byte[] data = new byte[1024];
+                    int count;
+                    while((count = is.read(data)) != -1) {
+                        fos.write(data, 0, count);
+                    }
+                    fos.close();
+                    is.close();
+                    oos.close();
+                    closeConnection();
+                    System.out.println("Download Completed Successfully.");
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean closeConnection() {
         try {
             clientSocket.close();
             return true;
