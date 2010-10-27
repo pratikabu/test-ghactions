@@ -254,7 +254,6 @@ public class User extends javax.swing.JFrame {
 
         Client client = new Client(jTextField1.getText(), 2021);
         client.triggerServerTask(to);
-        client.closeConnection();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -287,7 +286,6 @@ public class User extends javax.swing.JFrame {
         
         Client client = new Client(UsefulMethods.to.getServerAddress(), 2021);
         client.triggerServerTask(UsefulMethods.to);
-        client.closeConnection();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

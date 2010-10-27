@@ -56,8 +56,9 @@ public class ClientHandler implements Runnable {
 
     private void uploadFile(TransferrableObject to) {
         try {
+            OutputStream os = clientSocket.getOutputStream();
             for(FileInfo fi : to.getFiles()) {
-                OutputStream os = clientSocket.getOutputStream();
+                System.out.println("Uploading File: " + fi.getAbsolutePath());
                 FileInputStream fis = new FileInputStream(fi.getAbsolutePath());
                 byte[] dataArray = new byte[1024];
                 int count;
@@ -65,12 +66,11 @@ public class ClientHandler implements Runnable {
                     os.write(dataArray, 0, count);
                 }
                 fis.close();
-                os.close();
             }
+            os.close();
             clientSocket.close();
         } catch (IOException e) {
-            System.out.println("Error connecting with client.");
-            System.out.println("Error Message: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
