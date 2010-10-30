@@ -62,7 +62,17 @@ public class FileInfo implements Serializable {
     }
 
     public String getSizeFormatted() {
-        return null;
+        String strSize;
+        double tempSize = size / 1024.0;
+        if (size < 1024)
+            strSize = String.format("%.2f", tempSize * 1024.0) + " Bytes";
+        else if (tempSize < 1024)
+            strSize = String.format("%.2f", tempSize) + " KB";
+        else if ((tempSize = tempSize / 1024.0) < 1024)
+            strSize = String.format("%.2f", tempSize) + " MB";
+        else
+            strSize = String.format("%.2f", tempSize / 1024.0) + " GB";
+        return strSize;
     }
 
     public boolean isDownloadMarked() {

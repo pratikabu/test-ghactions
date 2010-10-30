@@ -14,8 +14,6 @@ import net.sf.jsharing.components.TransferrableObject;
 public class UsefulMethods {
     public static int DOWNLOAD_FILES = 1, PROCESS_TRANSFERRABLE_OBJECT = 2;
 
-    public static TransferrableObject to;
-
 
     /**
      * This method will return the byte array of the <b>IP Address</b><br/>
@@ -60,9 +58,6 @@ public class UsefulMethods {
             while(stringScanner.hasNextInt())
                 convertedAddress[i++]=stringScanner.nextInt();
         }
-
-        float f=(float)123.1234;
-        System.out.println(String.format("%.2f",f));
 
         return convertedAddress;
     }
