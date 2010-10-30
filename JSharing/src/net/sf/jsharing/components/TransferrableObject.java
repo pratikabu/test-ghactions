@@ -44,6 +44,7 @@ public class TransferrableObject implements Serializable {
         
         fi.setFileName(file.getName());
         fi.setAbsolutePath(file.getAbsolutePath());
+        fi.setSize(file.length());
         fi.setFileType(file.isFile()?FileInfo.FILE:FileInfo.FOLDER);
         fi.setDownloadMarked(false);
 
@@ -59,6 +60,11 @@ public class TransferrableObject implements Serializable {
     }
 
     public ArrayList<FileInfo> getDownloadableFiles() {
-        return null;
+        ArrayList<FileInfo> fis = new ArrayList<FileInfo>();
+
+        for(FileInfo fi : files)
+            if(fi.isDownloadMarked())
+                fis.add(fi);
+        return fis;
     }
 }

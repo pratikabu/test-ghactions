@@ -5,13 +5,12 @@
 
 package net.sf.jsharing.network;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import net.sf.jsharing.boundary.DownloadPopup;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.controller.UsefulMethods;
@@ -75,8 +74,6 @@ public class ClientHandler implements Runnable {
     }
 
     private void populateFiles(TransferrableObject to) {
-        UsefulMethods.to = to;//temporary
-        for(FileInfo fi : to.getFiles())
-            System.out.println(fi.isDownloadMarked() + ", " + fi.getAbsolutePath());
+        DownloadPopup.showDownloadPopup(to);
     }
 }
