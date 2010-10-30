@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class TransferrableObject implements Serializable {
     private ArrayList<FileInfo> files = new ArrayList<FileInfo>();
     private InetAddress serverAddress;
+    private int portNumber;
     private int taskType;
 
     public TransferrableObject(int taskType) {
@@ -59,12 +60,20 @@ public class TransferrableObject implements Serializable {
         this.files = files;
     }
 
-    public ArrayList<FileInfo> getDownloadableFiles() {
-        ArrayList<FileInfo> fis = new ArrayList<FileInfo>();
+//    public ArrayList<FileInfo> getDownloadableFiles() {
+//        ArrayList<FileInfo> fis = new ArrayList<FileInfo>();
+//
+//        for(FileInfo fi : files)
+//            if(fi.isDownloadMarked())
+//                fis.add(fi);
+//        return fis;
+//    }
 
-        for(FileInfo fi : files)
-            if(fi.isDownloadMarked())
-                fis.add(fi);
-        return fis;
+    public int getPortNumber() {
+        return portNumber;
+    }
+
+    public void setPortNumber(int portNumber) {
+        this.portNumber = portNumber;
     }
 }
