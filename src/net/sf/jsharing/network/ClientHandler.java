@@ -11,41 +11,54 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import net.sf.jsharing.boundary.DownloadPopup;
+import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.TransferrableObject;
-import net.sf.jsharing.controller.UsefulMethods;
+import net.sf.jsharing.components.UsefulMethods;
+import net.sf.jsharing.components.threads.MyThread;
+import net.sf.jsharing.components.threads.UninterruptibleThread;
 
 /**
  *
  * @author Pratik
  */
 public class ClientHandler implements Runnable {
-    private Thread t;
+    private MyThread t;
     private Socket clientSocket;
+    private TransferrableObject to;
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        t = new Thread(this);
     }
 
     public void startHandling() {
-        t.start();
+        try {
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+            to = (TransferrableObject)ois.readObject();
+            to.setServerAddress(clientSocket.getInetAddress());
+
+            t = new UninterruptibleThread(this, "Serving: " +
+                    to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
+            
+            t.start();
+        } catch(Exception e){}
     }
 
     public void run() {
+        String ip = to.getServerAddress().getHostAddress();
+        int portNumber = to.getPortNumber();
+
+        MainWindow.mw.addConnection(ip, portNumber);
         processRequest();
+        MainWindow.mw.removeConnection(ip, portNumber);
     }
 
     private void processRequest() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-            TransferrableObject to = (TransferrableObject)ois.readObject();
-            to.setServerAddress(clientSocket.getInetAddress());
-
             if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
                 populateFiles(to);
             } else if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
-                System.out.println("Request to upload from: " + clientSocket.getInetAddress());
+                System.out.println("Request to upload from: " + clientSocket.getInetAddress().getHostAddress());
                 uploadFile(to);
             }
         } catch (Exception e) {

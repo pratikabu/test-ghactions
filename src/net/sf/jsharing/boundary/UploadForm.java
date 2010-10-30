@@ -11,32 +11,36 @@
 
 package net.sf.jsharing.boundary;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
-import javax.swing.UIManager;
-import net.sf.jsharing.boundary.IPAddressForm;
+import javax.swing.table.DefaultTableModel;
 import net.sf.jsharing.components.TransferrableObject;
-import net.sf.jsharing.controller.UsefulMethods;
+import net.sf.jsharing.components.UsefulMethods;
+import net.sf.jsharing.components.threads.MyThread;
+import net.sf.jsharing.components.threads.UninterruptibleThread;
 import net.sf.jsharing.network.Client;
-import net.sf.jsharing.network.Server;
 
 /**
  *
  * @author Pratik
  */
-public class UploadForm extends javax.swing.JFrame {
-    private Server server = new Server(2021);
+public class UploadForm extends javax.swing.JFrame implements Runnable {
     private TransferrableObject to;
-
     private ArrayList<File> serverFiles = new ArrayList<File>();
+    private MyThread t;
 
     /** Creates new form MainServer */
-    public UploadForm() {
+    public UploadForm(String initialIP) {
         initComponents();
-        this.setLocationRelativeTo(null);
+
+        resizeTable();
+        populateIPAndPort(initialIP);
+        requestToggle(false);
         
-        if(server.startServer());
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -49,19 +53,20 @@ public class UploadForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
+        jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Send To Client");
@@ -70,13 +75,6 @@ public class UploadForm extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Reset");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -89,8 +87,6 @@ public class UploadForm extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Send to Client:"));
 
-        jScrollPane1.setViewportView(jList1);
-
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,12 +94,37 @@ public class UploadForm extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Remove");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "", "File Name", "Size"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setShowHorizontalLines(false);
+        jTable1.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setText("Total Size:");
+
+        jLabel2.setText("0.00 KB");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -112,22 +133,24 @@ public class UploadForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addContainerGap())
         );
 
@@ -147,7 +170,7 @@ public class UploadForm extends javax.swing.JFrame {
         jLabel3.setText("Port:");
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(2021, 1025, 60000, 1));
-        jSpinner1.setEditor(new javax.swing.JSpinner.NumberEditor(jSpinner1, ""));
+        jSpinner1.setEditor(new javax.swing.JSpinner.NumberEditor(jSpinner1, "#####"));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -157,7 +180,7 @@ public class UploadForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
@@ -178,6 +201,10 @@ public class UploadForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jProgressBar1.setIndeterminate(true);
+        jProgressBar1.setString("Sending Request");
+        jProgressBar1.setStringPainted(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,9 +214,9 @@ public class UploadForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7)))
@@ -203,10 +230,10 @@ public class UploadForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addComponent(jButton3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -214,11 +241,9 @@ public class UploadForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        for(File file : serverFiles)
-            to.addFile(file);
-
-        Client client = new Client(jTextField1.getText(), 2021);
-        client.triggerServerTask(to);
+        requestToggle(true);
+        t = new UninterruptibleThread(this, "Sending List to: " + jTextField1.getText() + ", " + (Integer)jSpinner1.getValue());
+        t.start();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -233,17 +258,7 @@ public class UploadForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int row = jList1.getSelectedIndex();
-        removeServerFile(row);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        to = new TransferrableObject(UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        server.shutdownServer();
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -255,47 +270,74 @@ public class UploadForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch(Exception e){}
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UploadForm().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     private void addServerFiles(File file) {
         serverFiles.add(file);
-        jList1.setListData(serverFiles.toArray());
+        ((DefaultTableModel)jTable1.getModel()).addRow(getDetails(file));
     }
 
-    private void removeServerFile(int row) {
-        if(row != -1) {
-            serverFiles.remove(row);
-            jList1.setListData(serverFiles.toArray());
-        }
+    /**
+     * resize the table
+     */
+    private void resizeTable() {
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.getParent().setBackground(Color.WHITE);
+        //rezise
+        int size = 20;
+
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(size);
+        size = 200;
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(size);
+        size = 75;
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(size);
     }
 
+    private Object[] getDetails(File fi) {
+        Object[] objarr = new Object[3];
+        objarr[0] = true;
+        objarr[1] = fi.getName();
+        objarr[2] = UsefulMethods.getFileSize(fi.length());
+
+        return objarr;
+    }
+
+    public void run() {
+        to = new TransferrableObject(UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT);
+        to.setPortNumber(UsefulMethods.getPortNumber());
+
+        for(File file : serverFiles)
+            to.addFile(file);
+
+        Client client = new Client(jTextField1.getText(), (Integer)jSpinner1.getValue());
+        client.triggerServerTask(to);
+        requestToggle(false);
+    }
+
+    private void requestToggle(boolean b) {
+        jProgressBar1.setVisible(b);
+        jButton3.setEnabled(!b);
+        jButton7.setEnabled(!b);
+    }
+
+    private void populateIPAndPort(String ip) {
+        jTextField1.setText(ip);
+        jSpinner1.setValue(UsefulMethods.getPortNumberForIP(ip));
+    }
 }

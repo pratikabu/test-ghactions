@@ -11,6 +11,9 @@
 
 package net.sf.jsharing.boundary;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author Pratik
@@ -24,6 +27,12 @@ public class IPAddressForm extends javax.swing.JDialog {
         initComponents();
 
         renderIP(ip);
+
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                jButton1ActionPerformed(null);
+            }
+        });
 
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
@@ -53,7 +62,7 @@ public class IPAddressForm extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Change IP");
 
         buttonGroup1.add(jRadioButton1);

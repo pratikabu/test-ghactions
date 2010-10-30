@@ -1,5 +1,6 @@
 package net.sf.jsharing.network;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import net.sf.jsharing.components.TransferrableObject;
 import java.io.IOException;
@@ -8,8 +9,9 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.components.FileInfo;
-import net.sf.jsharing.controller.UsefulMethods;
+import net.sf.jsharing.components.UsefulMethods;
 
 /**
  * 
@@ -19,8 +21,7 @@ public class Client {
     private Socket clientSocket;
     private int portNumber;
     private InetAddress serverAddress;
-
-    private TransferrableObject recievedTO;
+    private File saveToDirectory;
 
     public Client(String serverAddress, int portNumber) {
         try {
@@ -39,13 +40,14 @@ public class Client {
         this.serverAddress = serverAddress;
     }
 
-    public boolean triggerServerTask(TransferrableObject to) {
-        boolean success;
-        if(success = connectToServer()) {
-            sendTransferrableObject(to);
+    public void triggerServerTask(TransferrableObject to) {
+        String ip = serverAddress.getHostAddress();
+        MainWindow.mw.addConnection(ip, portNumber);
+        if(connectToServer()) {
+            processTransferrableObject(to);
         }
-
-        return success;
+        MainWindow.mw.removeConnection(ip, portNumber);
+        //"Downloading from: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
     }
 
     private boolean connectToServer() {
@@ -59,7 +61,7 @@ public class Client {
         }
     }
 
-    private void sendTransferrableObject(TransferrableObject to) {
+    private void processTransferrableObject(TransferrableObject to) {
         if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
             if(!to.getFiles().isEmpty()) {
                 downloadTransferrableObject(to);
@@ -90,7 +92,7 @@ public class Client {
                     oos.writeObject(singleTO);
 
                     InputStream is = clientSocket.getInputStream();
-                    FileOutputStream fos = new FileOutputStream("D:\\Download\\" + fi.getFileName());
+                    FileOutputStream fos = new FileOutputStream(new File(saveToDirectory, fi.getFileName()));
 
                     byte[] data = new byte[1024];
                     int count;
@@ -118,5 +120,9 @@ public class Client {
             System.out.println("Error Message: " + ioe.getMessage());
             return false;
         }
+    }
+
+    public void setOutputDirectory(File saveToFile) {
+        this.saveToDirectory = saveToFile;
     }
 }
