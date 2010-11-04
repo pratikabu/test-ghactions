@@ -13,9 +13,11 @@ package net.sf.jsharing.boundary;
 
 import java.awt.Color;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jsharing.components.FileTransferHandler;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
@@ -28,14 +30,15 @@ import net.sf.jsharing.network.Client;
  */
 public class UploadForm extends javax.swing.JFrame implements Runnable {
     private TransferrableObject to;
-    private ArrayList<File> serverFiles = new ArrayList<File>();
+    private LinkedHashSet<File> serverFiles = new LinkedHashSet<File>();
     private MyThread t;
 
     /** Creates new form MainServer */
     public UploadForm(String initialIP) {
         initComponents();
 
-        resizeTable();
+        jPanel1.setTransferHandler(new FileTransferHandler(this));
+        initTable();
         populateIPAndPort(initialIP);
         requestToggle(false);
         
@@ -251,10 +254,8 @@ public class UploadForm extends javax.swing.JFrame implements Runnable {
         jfc.setMultiSelectionEnabled(true);
         int status = jfc.showOpenDialog(this);
 
-        if(status == jfc.APPROVE_OPTION) {
-            for(File file : jfc.getSelectedFiles()){
-                addServerFiles(file);
-            }
+        if(status == JFileChooser.APPROVE_OPTION) {
+            addFiles(jfc.getSelectedFiles());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -290,13 +291,13 @@ public class UploadForm extends javax.swing.JFrame implements Runnable {
 
     private void addServerFiles(File file) {
         serverFiles.add(file);
-        ((DefaultTableModel)jTable1.getModel()).addRow(getDetails(file));
+        resetTabelData();
     }
 
     /**
      * resize the table
      */
-    private void resizeTable() {
+    private void initTable() {
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.getParent().setBackground(Color.WHITE);
         //rezise
@@ -339,5 +340,26 @@ public class UploadForm extends javax.swing.JFrame implements Runnable {
     private void populateIPAndPort(String ip) {
         jTextField1.setText(ip);
         jSpinner1.setValue(UsefulMethods.getPortNumberForIP(ip));
+    }
+
+    private void addFiles(File[] selectedFiles) {
+        for(File file : selectedFiles) {
+            addServerFiles(file);
+        }
+    }
+
+    public void addFiles(List selectedFiles) {
+        for(Object obj : selectedFiles) {
+            File file = (File)obj;
+            addServerFiles(file);
+        }
+    }
+
+    private void resetTabelData() {
+        for(int i = jTable1.getRowCount()-1; i>=0; i--)
+            ((DefaultTableModel)jTable1.getModel()).removeRow(i);
+
+        for(File file : serverFiles)
+            ((DefaultTableModel)jTable1.getModel()).addRow(getDetails(file));
     }
 }
