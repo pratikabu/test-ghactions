@@ -11,7 +11,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
-import net.sf.jsharing.boundary.UploadForm;
+import net.sf.jsharing.boundary.UploadFormPanel;
 
 /**
  *
@@ -20,9 +20,9 @@ import net.sf.jsharing.boundary.UploadForm;
 public class FileTransferHandler extends TransferHandler {
 
     private DataFlavor fileFlavor;
-    private UploadForm uploadForm;
+    private UploadFormPanel uploadForm;
 
-    public FileTransferHandler(UploadForm uploadForm) {
+    public FileTransferHandler(UploadFormPanel uploadForm) {
         this.uploadForm = uploadForm;
         fileFlavor = DataFlavor.javaFileListFlavor;
     }

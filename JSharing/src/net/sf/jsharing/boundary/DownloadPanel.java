@@ -4,9 +4,9 @@
  */
 
 /*
- * DownloadPopup.java
+ * DownloadPanel.java
  *
- * Created on 30 Oct, 2010, 11:42:38 AM
+ * Created on 4 Nov, 2010, 10:36:57 PM
  */
 
 package net.sf.jsharing.boundary;
@@ -14,9 +14,12 @@ package net.sf.jsharing.boundary;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jsharing.components.FileInfo;
+import net.sf.jsharing.components.RequestPanel;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
@@ -27,26 +30,20 @@ import net.sf.jsharing.network.Client;
  *
  * @author Pratik
  */
-public class DownloadPopup extends javax.swing.JFrame implements Runnable {
-    private TransferrableObject to;
+public class DownloadPanel extends RequestPanel implements Runnable {
     private File saveToFile;
     private MyThread t;
 
-    /** Creates new form DownloadPopup */
-    private DownloadPopup(TransferrableObject to) {
-        this.to = to;
+    /** Creates new form DownloadPanel */
+    public DownloadPanel(TransferrableObject to) {
+        super(to);
         initComponents();
 
         resizeTable();
         populateTO();
         populateLastSaveLocation();
 
-        this.setLocationByPlatform(true);
         Toolkit.getDefaultToolkit().beep();
-    }
-
-    public static void showDownloadPopup(TransferrableObject to) {
-        new DownloadPopup(to).setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -58,9 +55,6 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -68,14 +62,65 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jProgressBar1 = new javax.swing.JProgressBar();
         jLabel5 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jButton5 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("New Request");
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setText("<IP>");
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Save To:");
+
+        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setEditable(false);
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("...");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Download Selected");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Select All");
+
+        jProgressBar1.setIndeterminate(true);
+        jProgressBar1.setString("Downloading Files");
+        jProgressBar1.setStringPainted(true);
+
+        jLabel5.setText("0.0 KB");
+
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/add.gif"))); // NOI18N
+        jButton7.setToolTipText("Save this IP to list.");
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Deselect All");
+
+        jLabel4.setText("Size:");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -107,79 +152,38 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
 
         jLabel1.setText("Request From:");
 
-        jLabel2.setText("<IP>");
-
-        jButton1.setText("Close");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Save To:");
-
-        jTextField1.setEditable(false);
-
-        jButton2.setText("...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Download Selected");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Select All");
-
-        jButton5.setText("Deselect All");
-
-        jLabel4.setText("Size:");
-
-        jLabel5.setText("0.0 KB");
-
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/add.gif"))); // NOI18N
-        jButton7.setToolTipText("Save this IP to list.");
-
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setString("Downloading Files");
-        jProgressBar1.setStringPainted(true);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 369, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)))
@@ -187,6 +191,7 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 346, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -214,19 +219,11 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        requestToggle(true);
-        t = new UninterruptibleThread(this, "Sending List to: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
-        t.start();
-    }//GEN-LAST:event_jButton3ActionPerformed
+        MainWindow.mw.removePanel(this);
+}//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JFileChooser jfc = new JFileChooser();
@@ -235,7 +232,14 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
 
         if(status == JFileChooser.APPROVE_OPTION)
             saveAndLoadSaveLocation(jfc.getSelectedFile());
-    }//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        requestToggle(true);
+        t = new UninterruptibleThread(this, "Sending List to: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
+        t.start();
+}//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -305,7 +309,13 @@ public class DownloadPopup extends javax.swing.JFrame implements Runnable {
             to.setTaskType(UsefulMethods.DOWNLOAD_FILES);
             Client client = new Client(to.getServerAddress(), to.getPortNumber());
             client.setOutputDirectory(saveToFile);
-            client.triggerServerTask(to);
+            try{
+                client.triggerServerTask(to);
+            } catch(IOException e) {
+                JOptionPane.showMessageDialog(this, "The system encountered problem while downloading files from Server.\n"
+                        + "The system replied with: "
+                        + e.getLocalizedMessage(), "Error while Downloading", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
