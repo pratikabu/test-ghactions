@@ -2,6 +2,7 @@ package net.sf.jsharing.network;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.UnknownHostException;
 import net.sf.jsharing.components.TransferrableObject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,45 +24,57 @@ public class Client {
     private InetAddress serverAddress;
     private File saveToDirectory;
 
-    public Client(String serverAddress, int portNumber) {
-        try {
-            init(InetAddress.getByName(serverAddress), portNumber);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    /**
+     *
+     * @param serverAddress
+     * @param portNumber
+     * @throws UnknownHostException
+     */
+    public Client(String serverAddress, int portNumber) throws UnknownHostException {
+        init(InetAddress.getByName(serverAddress), portNumber);
     }
 
+    /**
+     *
+     * @param serverAddress
+     * @param portNumber
+     */
     public Client(InetAddress serverAddress, int portNumber) {
         init(serverAddress, portNumber);
     }
 
+    /**
+     * 
+     * @param serverAddress
+     * @param portNumber
+     */
     private void init(InetAddress serverAddress, int portNumber) {
         this.portNumber = portNumber;
         this.serverAddress = serverAddress;
     }
 
-    public void triggerServerTask(TransferrableObject to) {
+    /**
+     * Triggers the task specified by the TransferrableObject.
+     * @param to
+     * @throws IOException
+     */
+    public void triggerServerTask(TransferrableObject to) throws IOException {
         String ip = serverAddress.getHostAddress();
         MainWindow.mw.addConnection(ip, portNumber);
-        if(connectToServer()) {
-            processTransferrableObject(to);
-        }
+        connectToServer();
+        processTransferrableObject(to);
         MainWindow.mw.removeConnection(ip, portNumber);
-        //"Downloading from: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
     }
 
-    private boolean connectToServer() {
-        try{
-            clientSocket = new Socket(serverAddress, portNumber);
-            return true;
-        } catch(Exception e) {
-            System.out.println("Error connecting to Server.");
-            System.out.println("Error Message: " + e.getMessage());
-            return false;
-        }
+    /**
+     * Tries to connect to server.
+     * @throws IOException
+     */
+    private void connectToServer() throws IOException {
+        clientSocket = new Socket(serverAddress, portNumber);
     }
 
-    private void processTransferrableObject(TransferrableObject to) {
+    private void processTransferrableObject(TransferrableObject to) throws IOException {
         if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
             if(!to.getFiles().isEmpty()) {
                 downloadTransferrableObject(to);
@@ -78,48 +91,38 @@ public class Client {
         }
     }
 
-    private void downloadTransferrableObject(TransferrableObject to) {
+    private void downloadTransferrableObject(TransferrableObject to) throws IOException {
         for(FileInfo fi : to.getFiles()) {
-            System.out.println("Downloading: " + fi.getAbsolutePath());
             TransferrableObject singleTO = new TransferrableObject(to.getTaskType());
             singleTO.setServerAddress(to.getServerAddress());
             ArrayList<FileInfo> fis = new ArrayList<FileInfo>(1);
             fis.add(fi);
             singleTO.setFiles(fis);
-            try {
-                if(connectToServer()) {
-                    ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-                    oos.writeObject(singleTO);
+            connectToServer();
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            oos.writeObject(singleTO);
 
-                    InputStream is = clientSocket.getInputStream();
-                    FileOutputStream fos = new FileOutputStream(new File(saveToDirectory, fi.getFileName()));
+            InputStream is = clientSocket.getInputStream();
+            FileOutputStream fos = new FileOutputStream(new File(saveToDirectory, fi.getFileName()));
 
-                    byte[] data = new byte[1024];
-                    int count;
-                    while((count = is.read(data)) != -1) {
-                        fos.write(data, 0, count);
-                    }
-                    fos.close();
-                    is.close();
-                    oos.close();
-                    closeConnection();
-                    System.out.println("Download Completed Successfully.");
-                }
-            } catch(Exception e) {
-                e.printStackTrace();
+            byte[] data = new byte[UsefulMethods.chunkSize];
+            int count;
+            while((count = is.read(data)) != -1) {
+                fos.write(data, 0, count);
             }
+            fos.close();
+            is.close();
+            oos.close();
+            closeConnection();
         }
     }
 
-    private boolean closeConnection() {
-        try {
-            clientSocket.close();
-            return true;
-        } catch(IOException ioe) {
-            System.out.println("Error closing connection.");
-            System.out.println("Error Message: " + ioe.getMessage());
-            return false;
-        }
+    /**
+     * Tries to close the connection.
+     * @throws IOException
+     */
+    private void closeConnection() throws IOException {
+        clientSocket.close();
     }
 
     public void setOutputDirectory(File saveToFile) {

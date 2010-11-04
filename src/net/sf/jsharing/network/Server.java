@@ -21,17 +21,9 @@ public class Server {
      * This method will try to start the server on the specified port number.
      * @return true if server started else false.
      */
-    public void startServer() {
-        try {
+    public void startServer() throws IOException {
             serverSocket = new ServerSocket(portNumber);
             startAcceptingClient();
-            state = RUNNING;
-        } catch (IOException e) {
-            System.out.println("Error starting the Server.\n"
-                    + "Could not listen on port: " + portNumber);
-            System.out.println("Error Message: " + e.getMessage());
-            state = EXCEPTION_START;
-        }
     }
 
     /**
@@ -39,16 +31,9 @@ public class Server {
      * Which includes the removing of the ServerSocket from the port number.
      * @return true if server shutdown successfully else false.
      */
-    public void shutdownServer() {
-        try{
-            continueListening = false;
-            serverSocket.close();
-            state = STOPPED;
-        } catch(IOException e) {
-            System.out.println("Error shutting down the Server.");
-            System.out.println("Error Message: " + e.getMessage());
-            state = EXCEPTION_STOP;
-        }
+    public void shutdownServer() throws IOException {
+        continueListening = false;
+        serverSocket.close();
     }
 
     /**
@@ -81,6 +66,10 @@ public class Server {
 
     public int getState() {
         return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public int getPortNumber() {

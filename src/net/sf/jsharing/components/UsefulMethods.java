@@ -5,6 +5,16 @@
 
 package net.sf.jsharing.components;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 import javax.swing.filechooser.FileSystemView;
 
@@ -19,8 +29,21 @@ public class UsefulMethods {
 
     public static final String P_PORT_NUMBER_KEY = "portNumber";
     public static final String P_LAST_SAVE_LOCATION = "lastSaveLoc";
-    
-    public static final Integer DEFAULT_PORT_NUMBER = 21212;
+    public static int chunkSize;
+
+    private static final String PROPERTIES_LOCATION = "jsharingproperties.properties";
+
+    static{
+        //load properties
+        loadProperties();
+
+        //update the chunkSize
+        try{
+            chunkSize = Integer.parseInt(props.getProperty("chunksize"));
+        } catch (Exception e) {
+            chunkSize = 1024;
+        }
+    }
 
     /**
      * Fetches the port number from the properties file.
@@ -33,7 +56,7 @@ public class UsefulMethods {
         try {
             return Integer.parseInt(value);
         } catch(Exception e) {
-            return DEFAULT_PORT_NUMBER;
+            return 21212;
         }
     }
 
@@ -60,7 +83,7 @@ public class UsefulMethods {
         try {
             return Integer.parseInt(value);
         } catch(Exception e) {
-            return DEFAULT_PORT_NUMBER;
+            return getPortNumber();
         }
     }
 
@@ -86,5 +109,36 @@ public class UsefulMethods {
         else
             strSize = String.format("%.2f", tempSize / 1024.0) + " GB";
         return strSize;
+    }
+
+    private static void loadProperties() {
+        try {
+            props.load(new FileInputStream(new File(PROPERTIES_LOCATION)));
+        } catch(IOException e) {
+        }
+    }
+
+    public static void saveProperties() {
+        try {
+            props.store(new FileOutputStream(new File(PROPERTIES_LOCATION)), "The properties have been modified at: " + new Date());
+        } catch(IOException e) {
+        }
+    }
+
+    public static void placeAtRightBottomLocation(Component c){
+        Toolkit toolkit=Toolkit.getDefaultToolkit();
+        Dimension d=toolkit.getScreenSize();
+        Insets i=toolkit.getScreenInsets(c.getGraphicsConfiguration());
+        Rectangle r=c.getBounds();
+
+        //actual dimension
+        d.width=d.width-(i.left+i.right);
+        d.height=d.height-(i.bottom+i.top);
+
+        //center
+        r.x=d.width-c.getWidth();
+        r.y=d.height-c.getHeight();
+
+        c.setBounds(r);
     }
 }

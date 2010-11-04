@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import net.sf.jsharing.boundary.DownloadPopup;
 import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.TransferrableObject;
@@ -54,15 +53,11 @@ public class ClientHandler implements Runnable {
     }
 
     private void processRequest() {
-        try {
-            if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
-                populateFiles(to);
-            } else if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
-                System.out.println("Request to upload from: " + clientSocket.getInetAddress().getHostAddress());
-                uploadFile(to);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
+            populateFiles(to);
+        } else if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
+            System.out.println("Request to upload from: " + clientSocket.getInetAddress().getHostAddress());
+            uploadFile(to);
         }
     }
 
@@ -70,9 +65,8 @@ public class ClientHandler implements Runnable {
         try {
             OutputStream os = clientSocket.getOutputStream();
             for(FileInfo fi : to.getFiles()) {
-                System.out.println("Uploading File: " + fi.getAbsolutePath());
                 FileInputStream fis = new FileInputStream(fi.getAbsolutePath());
-                byte[] dataArray = new byte[1024];
+                byte[] dataArray = new byte[UsefulMethods.chunkSize];
                 int count;
                 while ((count = fis.read(dataArray)) != -1) {
                     os.write(dataArray, 0, count);
@@ -87,6 +81,6 @@ public class ClientHandler implements Runnable {
     }
 
     private void populateFiles(TransferrableObject to) {
-        DownloadPopup.showDownloadPopup(to);
+        MainWindow.mw.openDownloadPanel(to);
     }
 }
