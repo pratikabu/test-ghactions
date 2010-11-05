@@ -14,9 +14,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import javax.swing.filechooser.FileSystemView;
+import org.apache.log4j.Level;
+import pratikabu.logging.log4j.FileLog;
+import pratikabu.logging.log4j.Log;
 
 /**
  *
@@ -30,18 +34,29 @@ public class UsefulMethods {
     public static final String P_PORT_NUMBER_KEY = "portNumber";
     public static final String P_LAST_SAVE_LOCATION = "lastSaveLoc";
     public static int chunkSize;
-
-    private static final String PROPERTIES_LOCATION = "jsharingproperties.properties";
+    public static Log log;
 
     static{
         //load properties
         loadProperties();
 
         //update the chunkSize
-        try{
+        try {
             chunkSize = Integer.parseInt(props.getProperty("chunksize"));
-        } catch (Exception e) {
+        } catch(Exception e) {
             chunkSize = 1024;
+        }
+
+        //instantiate logger
+        File folder = new File(FileModule.LOG_FOLDER);
+        if(!folder.exists())
+            folder.mkdirs();//create all folder if not available
+        Calendar cal = Calendar.getInstance();
+        String date = cal.get(Calendar.DATE) + "-" + cal.get(Calendar.MONDAY) + "-" + cal.get(Calendar.YEAR);
+        try {
+            log = new FileLog("JSharing Logs", FileModule.LOG_FOLDER + File.separatorChar + date + ".xml", true);
+        } catch(IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -113,31 +128,32 @@ public class UsefulMethods {
 
     private static void loadProperties() {
         try {
-            props.load(new FileInputStream(new File(PROPERTIES_LOCATION)));
+            props.load(new FileInputStream(new File(FileModule.PROPERTIES_LOCATION)));
         } catch(IOException e) {
         }
     }
 
     public static void saveProperties() {
         try {
-            props.store(new FileOutputStream(new File(PROPERTIES_LOCATION)), "The properties have been modified at: " + new Date());
+            props.store(new FileOutputStream(new File(FileModule.PROPERTIES_LOCATION)), "The properties have been modified at: " + new Date());
         } catch(IOException e) {
+            log.log(Level.ERROR, "Error saving properties file.", e);
         }
     }
 
-    public static void placeAtRightBottomLocation(Component c){
-        Toolkit toolkit=Toolkit.getDefaultToolkit();
-        Dimension d=toolkit.getScreenSize();
-        Insets i=toolkit.getScreenInsets(c.getGraphicsConfiguration());
-        Rectangle r=c.getBounds();
+    public static void placeAtRightBottomLocation(Component c) {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension d = toolkit.getScreenSize();
+        Insets i = toolkit.getScreenInsets(c.getGraphicsConfiguration());
+        Rectangle r = c.getBounds();
 
         //actual dimension
-        d.width=d.width-(i.left+i.right);
-        d.height=d.height-(i.bottom+i.top);
+        d.width = d.width - (i.left + i.right);
+        d.height = d.height - (i.bottom + i.top);
 
         //center
-        r.x=d.width-c.getWidth();
-        r.y=d.height-c.getHeight();
+        r.x = d.width - c.getWidth();
+        r.y = d.height - c.getHeight();
 
         c.setBounds(r);
     }
