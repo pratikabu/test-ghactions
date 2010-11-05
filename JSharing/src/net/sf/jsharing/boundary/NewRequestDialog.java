@@ -11,9 +11,7 @@
 
 package net.sf.jsharing.boundary;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import javax.swing.JPanel;
 import net.sf.jsharing.components.RequestPanel;
 import net.sf.jsharing.components.UsefulMethods;
 

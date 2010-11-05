@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.network.Server;
+import org.apache.log4j.Level;
 
 /**
  *
@@ -430,6 +431,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        UsefulMethods.log.getLogger().info("Port change request initiated.");
         if(server.isRunning()) {
            JOptionPane.showMessageDialog(this, "The server is running.\n"
                    + "You cannot change the Port Number.\n"
@@ -498,31 +500,61 @@ public class MainWindow extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void startServer(boolean byPassException) {
-        server.setPortNumber(UsefulMethods.getPortNumber());
+        if(server.isRunning())
+            return;
+
+        int portNumber = UsefulMethods.getPortNumber();
+        
+        String reason = null;
+        if(!byPassException)
+            reason = JOptionPane.showInputDialog(this, "Reason for Start", "Port Number Change to " + portNumber);
+        else
+            reason = "Normal startup of Server.";
+
+        if(reason == null)
+            return;
+        
+        server.setPortNumber(portNumber);
         try {
             server.startServer();
             server.setState(Server.RUNNING);
+            UsefulMethods.log.getLogger().log(Level.INFO, "Start request of the server. Reason: " + reason + ".");
         } catch(IOException e) {
             if(!byPassException) {
                 JOptionPane.showMessageDialog(this, "The server encountered a problem while Startup.\n"
                         + "The system replied with: "
                         + e.getLocalizedMessage(), "Error while Startup", JOptionPane.ERROR_MESSAGE);
             }
+            UsefulMethods.log.log(Level.WARN, "Server cannot start.", e);
             server.setState(Server.EXCEPTION_START);
         }
         toggleServerState();
     }
 
     private void shutDownServer(boolean byPassException) {
+        if(server.isStopped())
+            return;
+        
+        String reason = null;
+        if(!byPassException)
+            reason = JOptionPane.showInputDialog(this, "Reason for Shutdown", "Force Shutdown");
+        else
+            reason = "Normal termination of program.";
+
+        if(reason == null)
+            return;
+
         try{
             server.shutdownServer();
             server.setState(Server.STOPPED);
+            UsefulMethods.log.getLogger().log(Level.INFO, "Shutdown request of the server. Reason: " + reason + ".");
         }catch(Exception e){
             if(!byPassException) {
                 JOptionPane.showMessageDialog(this, "The server encountered a problem while shutting down.\n"
                         + "The system replied with: "
                         + e.getLocalizedMessage(), "Error while Shutdown", JOptionPane.ERROR_MESSAGE);
             }
+            UsefulMethods.log.log(Level.WARN, "Server cannot stop.", e);
             server.setState(Server.EXCEPTION_STOP);
         }
         toggleServerState();

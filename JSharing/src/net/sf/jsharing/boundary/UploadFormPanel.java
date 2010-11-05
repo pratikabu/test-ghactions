@@ -26,6 +26,7 @@ import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
 import net.sf.jsharing.components.threads.UninterruptibleThread;
 import net.sf.jsharing.network.Client;
+import org.apache.log4j.Level;
 
 /**
  *
@@ -325,6 +326,8 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     }
 
     public void run() {
+        boolean success = true;
+        
         to = new TransferrableObject(UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT);
         to.setPortNumber(UsefulMethods.getPortNumber());
 
@@ -336,23 +339,30 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         try{
             client = new Client(jTextField1.getText(), (Integer)jSpinner1.getValue());
         } catch(UnknownHostException e) {
+            success = false;
             JOptionPane.showMessageDialog(this, "Unknown Host Exception is thrown.\n"
                     + "The IP or Port number provided are not known in this network.\n"
                     + "The system replied with:\n"
                     + e.getLocalizedMessage(), "Cannot Connect", JOptionPane.ERROR_MESSAGE);
+            UsefulMethods.log.log(Level.ERROR, "Unkown host exception is thrown.", e);
         }
 
         if(client != null) {
             try {
                 client.triggerServerTask(to);
             } catch (IOException ex) {
+                success = false;
                 JOptionPane.showMessageDialog(this, "Cannot connect to the requested IP and port.\n"
                     + "Check whether they are still available.\n"
                     + "The system replied with: "
                     + ex.getLocalizedMessage(), "Cannot Connect", JOptionPane.ERROR_MESSAGE);
+                UsefulMethods.log.log(Level.ERROR, "Cannot connect to request IP and port.", ex);
             }
         }
         requestToggle(false);
+
+        if(success)
+            MainWindow.mw.removePanel(this);
     }
 
     private void requestToggle(boolean b) {
@@ -383,7 +393,11 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         for(int i = jTable1.getRowCount()-1; i>=0; i--)
             ((DefaultTableModel)jTable1.getModel()).removeRow(i);
 
-        for(File file : serverFiles)
+        long totalSize = 0;
+        for(File file : serverFiles) {
+            totalSize += file.length();
             ((DefaultTableModel)jTable1.getModel()).addRow(getDetails(file));
+        }
+        jLabel2.setText(UsefulMethods.getFileSize(totalSize));
     }
 }

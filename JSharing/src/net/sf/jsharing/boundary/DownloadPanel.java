@@ -25,6 +25,7 @@ import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
 import net.sf.jsharing.components.threads.UninterruptibleThread;
 import net.sf.jsharing.network.Client;
+import org.apache.log4j.Level;
 
 /**
  *
@@ -266,9 +267,12 @@ public class DownloadPanel extends RequestPanel implements Runnable {
 
             jButton7.setVisible(!UsefulMethods.isIPSaved(ipAddress));
 
+            long totalSize = 0;
             for(FileInfo fi : to.getFiles()) {
+                totalSize += fi.getSize();
                 ((DefaultTableModel)jTable1.getModel()).addRow(getDetails(fi));
             }
+            jLabel5.setText(UsefulMethods.getFileSize(totalSize));
         }
     }
 
@@ -312,7 +316,9 @@ public class DownloadPanel extends RequestPanel implements Runnable {
             try{
                 client.triggerServerTask(to);
             } catch(IOException e) {
-                JOptionPane.showMessageDialog(this, "The system encountered problem while downloading files from Server.\n"
+                String msg = "The system encountered problem while downloading files from Server.";
+                UsefulMethods.log.log(Level.ERROR, msg, e);//exception logged in the logger
+                JOptionPane.showMessageDialog(this, msg + "\n"
                         + "The system replied with: "
                         + e.getLocalizedMessage(), "Error while Downloading", JOptionPane.ERROR_MESSAGE);
             }
