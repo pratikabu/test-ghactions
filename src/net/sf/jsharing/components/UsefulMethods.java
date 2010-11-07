@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Properties;
 import javax.swing.filechooser.FileSystemView;
 import org.apache.log4j.Level;
@@ -29,10 +30,12 @@ import pratikabu.logging.log4j.Log;
 public class UsefulMethods {
     public static int DOWNLOAD_FILES = 1, PROCESS_TRANSFERRABLE_OBJECT = 2;
     public static Properties props = new Properties();
-    public static Properties savedIPs = new Properties();
+    public static LinkedHashMap<String, SavedIPInfo> savedIPs = new LinkedHashMap<String, SavedIPInfo>();
 
     public static final String P_PORT_NUMBER_KEY = "portNumber";
     public static final String P_LAST_SAVE_LOCATION = "lastSaveLoc";
+    public static final String P_SERVER_NAME = "serverName";
+
     public static int chunkSize;
     public static Log log;
 
@@ -88,23 +91,38 @@ public class UsefulMethods {
     }
 
     /**
+     * Get the object of Saved IPs.
+     * @param ip
+     * @return
+     */
+    public static SavedIPInfo getSavedIPInfo(String ip) {
+        return savedIPs.get(ip);
+    }
+
+    /**
      * Get the saved port number for the passed IP.
      * @param ip
      * @return
      */
     public static Integer getPortNumberForIP(String ip) {
-        String value = savedIPs.getProperty(ip);
+        SavedIPInfo sip = getSavedIPInfo(ip);
 
-        try {
-            return Integer.parseInt(value);
-        } catch(Exception e) {
+        if(sip != null)
+            return sip.getPort();
+        else
             return getPortNumber();
-        }
     }
 
     public static boolean isIPSaved(String ip) {
-        String value = savedIPs.getProperty(ip);
-        return value != null;
+        return savedIPs.containsKey(ip);
+    }
+
+    public static String getShortNameOfIP(String ip) {
+        SavedIPInfo sip = getSavedIPInfo(ip);
+        if(sip != null)
+            return sip.getName();
+        else
+            return ip;
     }
 
     /**
@@ -156,5 +174,14 @@ public class UsefulMethods {
         r.y = d.height - c.getHeight();
 
         c.setBounds(r);
+    }
+
+    public static String getComputerName() {
+        String value = props.getProperty(P_SERVER_NAME);
+        
+        if(value != null)
+            return value;
+        else
+            return System.getProperty("user.name");
     }
 }

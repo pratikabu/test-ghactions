@@ -47,7 +47,7 @@ public class ClientHandler implements Runnable {
         String ip = to.getServerAddress().getHostAddress();
         int portNumber = to.getPortNumber();
 
-        MainWindow.mw.addConnection(ip, portNumber);
+        MainWindow.mw.addConnection(UsefulMethods.getShortNameOfIP(ip), ip, portNumber);
         processRequest();
         MainWindow.mw.removeConnection(ip, portNumber);
     }

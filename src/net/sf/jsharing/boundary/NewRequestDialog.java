@@ -21,7 +21,6 @@ import net.sf.jsharing.components.UsefulMethods;
  */
 public class NewRequestDialog extends javax.swing.JDialog {
     private static NewRequestDialog nrd = null;
-
     private ArrayList<RequestPanel> rps = new ArrayList<RequestPanel>();
     
     /** Creates new form NewRequestDialog */
@@ -114,7 +113,7 @@ public class NewRequestDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        this.dispose();
+        closeDialog();
     }//GEN-LAST:event_jLabel4MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -128,8 +127,10 @@ public class NewRequestDialog extends javax.swing.JDialog {
     public void addRequestPanel(RequestPanel rp) {
         rps.add(rp);
         jPanel2.add(rp.getPopupPanel());
-        jScrollPane1.getVerticalScrollBar().setValue(jScrollPane1.getVerticalScrollBar().getMaximum() + jScrollPane1.getVerticalScrollBar().getVisibleAmount());
-
+        rp.startCanClose();
+        jScrollPane1.getVerticalScrollBar().setValue(jScrollPane1.getVerticalScrollBar().getMaximum() +
+                jScrollPane1.getVerticalScrollBar().getVisibleAmount());
+        
         showDialog();
     }
 
@@ -140,5 +141,47 @@ public class NewRequestDialog extends javax.swing.JDialog {
     public void showDialog() {
         if(!isVisible())
             setVisible(true);
+    }
+
+    public void removePopupPanel(PopupPanel pp) {
+        for(RequestPanel rp : rps)
+            if(rp.getPopupPanel() == pp) {
+                removeRequestPanel(rp);
+                break;
+            }
+    }
+
+    public void removeRequestPanel(RequestPanel rp) {
+        if(!rps.remove(rp))
+            return;
+        
+        this.jPanel2.remove(rp.getPopupPanel());
+        jPanel2.repaint();
+
+        if(rps.isEmpty())
+            closeDialog();
+    }
+
+    public void closeDialog() {
+        if(this.isVisible())
+            this.setVisible(false);
+    }
+
+    public void attemptToClose() {
+        if(!this.isVisible())
+            return;
+        
+        boolean canClose = true;
+
+        //check wether all rps are done
+        for(RequestPanel rp : rps) {
+            canClose = canClose && rp.CanClose();
+            if(!canClose)
+                break;
+        }
+
+        //if yes then close the dialog
+        if(canClose)
+            closeDialog();
     }
 }

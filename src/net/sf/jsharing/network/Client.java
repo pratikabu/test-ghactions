@@ -23,6 +23,7 @@ public class Client {
     private int portNumber;
     private InetAddress serverAddress;
     private File saveToDirectory;
+    private boolean continueDownload = true;
 
     /**
      *
@@ -60,7 +61,7 @@ public class Client {
      */
     public void triggerServerTask(TransferrableObject to) throws IOException {
         String ip = serverAddress.getHostAddress();
-        MainWindow.mw.addConnection(ip, portNumber);
+        MainWindow.mw.addConnection(UsefulMethods.getShortNameOfIP(ip), ip, portNumber);
         connectToServer();
         processTransferrableObject(to);
         MainWindow.mw.removeConnection(ip, portNumber);
@@ -80,19 +81,18 @@ public class Client {
                 downloadTransferrableObject(to);
             }
         } else if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
-            try{
-                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-                oos.writeObject(to);
-                oos.close();
-                closeConnection();
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            oos.writeObject(to);
+            oos.close();
+            closeConnection();
         }
     }
 
     private void downloadTransferrableObject(TransferrableObject to) throws IOException {
         for(FileInfo fi : to.getFiles()) {
+            if(!continueDownload)
+                return;
+            
             TransferrableObject singleTO = new TransferrableObject(to.getTaskType());
             singleTO.setServerAddress(to.getServerAddress());
             ArrayList<FileInfo> fis = new ArrayList<FileInfo>(1);
@@ -107,7 +107,7 @@ public class Client {
 
             byte[] data = new byte[UsefulMethods.chunkSize];
             int count;
-            while((count = is.read(data)) != -1) {
+            while(((count = is.read(data)) != -1) && continueDownload) {
                 fos.write(data, 0, count);
             }
             fos.close();
@@ -127,5 +127,13 @@ public class Client {
 
     public void setOutputDirectory(File saveToFile) {
         this.saveToDirectory = saveToFile;
+    }
+
+    public boolean isContinueDownload() {
+        return continueDownload;
+    }
+
+    public void setContinueDownload(boolean continueDownload) {
+        this.continueDownload = continueDownload;
     }
 }

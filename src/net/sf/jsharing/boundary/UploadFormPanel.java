@@ -21,6 +21,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jsharing.components.FileTransferHandler;
+import net.sf.jsharing.components.SavedIPInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
@@ -38,12 +39,12 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     private MyThread t;
 
     /** Creates new form UploadFormPanel */
-    public UploadFormPanel(String initialIP) {
+    public UploadFormPanel(SavedIPInfo sip) {
         initComponents();
 
         jPanel1.setTransferHandler(new FileTransferHandler(this));
         initTable();
-        populateIPAndPort(initialIP);
+        populateIPAndPort(sip);
         requestToggle(false);
     }
 
@@ -83,6 +84,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setText("...");
+        jButton4.setFocusable(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -91,6 +93,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 
         jLabel3.setText("Port:");
 
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(21212, 1025, 60000, 1));
         jSpinner1.setEditor(new javax.swing.JSpinner.NumberEditor(jSpinner1, "#####"));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -217,7 +220,6 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -233,7 +235,6 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 412, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -271,6 +272,9 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(!MainWindow.mw.isServerRunning())
+            return;
+
         requestToggle(true);
         t = new UninterruptibleThread(this, "Sending List to: " + jTextField1.getText() + ", " + (Integer)jSpinner1.getValue());
         t.start();
@@ -330,6 +334,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         
         to = new TransferrableObject(UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT);
         to.setPortNumber(UsefulMethods.getPortNumber());
+        to.setComputerName(UsefulMethods.getComputerName());
 
         for(File file : serverFiles)
             to.addFile(file);
@@ -371,9 +376,9 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         jButton7.setEnabled(!b);
     }
 
-    private void populateIPAndPort(String ip) {
-        jTextField1.setText(ip);
-        jSpinner1.setValue(UsefulMethods.getPortNumberForIP(ip));
+    private void populateIPAndPort(SavedIPInfo sip) {
+        jTextField1.setText(sip.getIp());
+        jSpinner1.setValue(sip.getPort());
     }
 
     private void addFiles(File[] selectedFiles) {

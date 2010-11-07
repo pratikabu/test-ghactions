@@ -15,10 +15,12 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jsharing.components.SavedIPInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.network.Server;
@@ -48,6 +50,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        loadSavedIPs();
         this.jTable1.requestFocus();
         this.setLocationRelativeTo(null);
         setVisible(true);
@@ -81,16 +84,21 @@ public class MainWindow extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -195,14 +203,14 @@ public class MainWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "IP", "Port"
+                "Name", "IP", "Port"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -217,17 +225,44 @@ public class MainWindow extends javax.swing.JFrame {
 
         jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/remove.gif"))); // NOI18N
-        jButton5.setToolTipText("Remove from list.");
+        jButton5.setToolTipText("Remove Selected Computer.");
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(255, 255, 255));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/add.gif"))); // NOI18N
         jButton7.setToolTipText("Add New Computer");
+        jButton7.setFocusable(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setBackground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Send");
+        jButton8.setText("Send Files");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setBackground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("Chat");
+        jButton9.setText("Start Chat");
+
+        jButton10.setBackground(new java.awt.Color(255, 255, 255));
+        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/edit.gif"))); // NOI18N
+        jButton10.setToolTipText("Edit Selected Computer.");
+        jButton10.setFocusable(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -238,10 +273,12 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton7)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8)))
@@ -251,14 +288,15 @@ public class MainWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton7)
-                    .addComponent(jButton5)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton8)
-                        .addComponent(jButton9)))
+                        .addComponent(jButton9))
+                    .addComponent(jButton7)
+                    .addComponent(jButton10)
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
@@ -271,14 +309,14 @@ public class MainWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "IP", "Port"
+                "Name", "IP", "Port"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -291,36 +329,20 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTable2);
 
-        jButton4.setBackground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Stop Connection");
-
-        jButton6.setBackground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Detailed View");
-        jButton6.setEnabled(false);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton6))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -343,11 +365,33 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane2.addTab("Main", null, jPanel5, "");
+
+        jPanel6.setLayout(new java.awt.BorderLayout());
+        jPanel6.add(jSeparator2, java.awt.BorderLayout.NORTH);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/serverrunning.gif"))); // NOI18N
+        jLabel2.setToolTipText("Sever is Running");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(362, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2)
+        );
+
+        jPanel6.add(jPanel7, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("Tasks");
 
@@ -365,6 +409,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuItem4.setMnemonic('C');
         jMenuItem4.setText("Initiate Chat");
         jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator3);
 
         jMenuItem3.setMnemonic('P');
         jMenuItem3.setText("Change Port Number");
@@ -374,6 +419,14 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
+
+        jMenuItem6.setText("Change Computer Name");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
         jMenu1.add(jSeparator1);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
@@ -402,25 +455,27 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap()
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                .addGap(10, 10, 10))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        openUploadForm();
+        openUploadForm(null);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -441,12 +496,56 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        openUploadForm();
+        openUploadForm(null);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         exitProgram();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        if(SavedIPInfoDialog.showSavedIPInfoDialog(MainWindow.mw, null))
+            loadSavedIPs();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        int row = getSavedIPRow();
+        if(row != -1) {
+            SavedIPInfo sip = UsefulMethods.getSavedIPInfo(jTable1.getValueAt(row, 1).toString());
+            openUploadForm(sip);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        int row = getSavedIPRow();
+        if(row != -1) {
+            SavedIPInfo sip = UsefulMethods.getSavedIPInfo(jTable1.getValueAt(row, 1).toString());
+            if(SavedIPInfoDialog.showSavedIPInfoDialog(this, sip))
+                loadSavedIPs();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int row = getSavedIPRow();
+        if(row != -1) {
+            SavedIPInfo sip = UsefulMethods.getSavedIPInfo(jTable1.getValueAt(row, 1).toString());
+            int choice = JOptionPane.showConfirmDialog(this, "You are about to delete: " + sip.getName() + "\n"
+                    + "IP: " +sip.getIp() + "\n"
+                    + "Do you want to remove the selected IP Info?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+
+            if(choice == JOptionPane.YES_OPTION) {
+                UsefulMethods.savedIPs.remove(sip.getIp());
+                loadSavedIPs();
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        String serverName = JOptionPane.showInputDialog(this, "Computer Name", UsefulMethods.getComputerName());
+        if(serverName != null) {
+            UsefulMethods.props.setProperty(UsefulMethods.P_SERVER_NAME, serverName);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
     * @param args the command line arguments
@@ -465,15 +564,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -482,15 +581,20 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
@@ -568,12 +672,18 @@ public class MainWindow extends javax.swing.JFrame {
             jButton2.setText("Stop Server");
             jPanel4.setToolTipText(msg);
             jPanel4.setBackground(new Color(0, 204, 102));
+
+            jLabel2.setEnabled(true);
+            jLabel2.setToolTipText(msg);
         } else {
             msg = "Server is not running.";
             jTextArea1.setText(msg);
             jButton2.setText("Start Server");
             jPanel4.setToolTipText(msg);
             jPanel4.setBackground(Color.GRAY);
+
+            jLabel2.setEnabled(false);
+            jLabel2.setToolTipText(msg);
         }
 
         if(server.getState() == Server.EXCEPTION_START) {
@@ -587,8 +697,18 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    private void openUploadForm() {
-        UploadFormPanel ufp = new UploadFormPanel("192.168.1.3");
+    private void openUploadForm(SavedIPInfo sip) {
+        if(!isServerRunning()) {
+            return;
+        }
+
+        if(sip == null) {
+            sip = new SavedIPInfo();
+            sip.setIp("127.0.0.1");
+            sip.setPort(UsefulMethods.getPortNumber());
+        }
+        
+        UploadFormPanel ufp = new UploadFormPanel(sip);
         this.jTabbedPane2.addTab("Upload", ufp);
         this.jTabbedPane2.setSelectedComponent(ufp);
     }
@@ -611,20 +731,21 @@ public class MainWindow extends javax.swing.JFrame {
     private void exitProgram() {
         shutDownServer(true);
         UsefulMethods.saveProperties();
-        dispose();
+        System.exit(0);
     }
 
-    public void addConnection(String ip, int port) {
-        Object[] data = new Object[2];
-        data[0] = ip;
-        data[1] = port + "";
+    public void addConnection(String name, String ip, int portNumber) {
+        Object[] data = new Object[3];
+        data[0] = name;
+        data[1] = ip;
+        data[2] = portNumber + "";
         ((DefaultTableModel)jTable2.getModel()).addRow(data);
         calculateActiveConnections();
     }
 
-    public void removeConnection(String ip, int port) {
+    public void removeConnection(String ip, int portNumber) {
         for(int i=0; i<jTable2.getRowCount(); i++) {
-            if(jTable2.getValueAt(i, 0).equals(ip) && jTable2.getValueAt(i, 1).equals(port + "")) {
+            if(jTable2.getValueAt(i, 1).equals(ip) && jTable2.getValueAt(i, 2).equals(portNumber + "")) {
                 ((DefaultTableModel)jTable2.getModel()).removeRow(i);
                 calculateActiveConnections();
                 break;
@@ -647,5 +768,30 @@ public class MainWindow extends javax.swing.JFrame {
 
     public void focusOnPanel(JPanel p) {
         jTabbedPane2.setSelectedComponent(p);
+    }
+
+    public void loadSavedIPs() {
+        for(int i=jTable1.getRowCount()-1; i>=0; i--)
+            ((DefaultTableModel)jTable1.getModel()).removeRow(i);
+
+        for(Entry<String, SavedIPInfo> entry : UsefulMethods.savedIPs.entrySet()) {
+            Object[] data = new Object[]{entry.getValue().getName(), entry.getValue().getIp(), entry.getValue().getPort()};
+            ((DefaultTableModel)jTable1.getModel()).addRow(data);
+        }
+    }
+
+    private int getSavedIPRow() {
+        int row = jTable1.getSelectedRow();
+        if(row == -1)
+            JOptionPane.showMessageDialog(this, "No row selected.\n"
+                    + "Kindly select any row and continue.");
+        return row;
+    }
+
+    public boolean isServerRunning() {
+        boolean running = server.isRunning();
+        if(!running)
+            JOptionPane.showMessageDialog(this, "Server is not running. You cannot continue.");
+        return running;
     }
 }
