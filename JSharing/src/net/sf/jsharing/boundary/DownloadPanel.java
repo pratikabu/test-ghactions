@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.RequestPanel;
+import net.sf.jsharing.components.SavedIPInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
 import net.sf.jsharing.components.threads.MyThread;
@@ -33,7 +34,8 @@ import org.apache.log4j.Level;
  */
 public class DownloadPanel extends RequestPanel implements Runnable {
     private File saveToFile;
-    private MyThread t;
+    private MyThread tDownload;
+    private Client client;
 
     /** Creates new form DownloadPanel */
     public DownloadPanel(TransferrableObject to) {
@@ -43,6 +45,7 @@ public class DownloadPanel extends RequestPanel implements Runnable {
         resizeTable();
         populateTO();
         populateLastSaveLocation();
+        requestToggle(false);
 
         Toolkit.getDefaultToolkit().beep();
     }
@@ -86,11 +89,11 @@ public class DownloadPanel extends RequestPanel implements Runnable {
 
         jLabel3.setText("Save To:");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setEditable(false);
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("...");
+        jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -117,6 +120,11 @@ public class DownloadPanel extends RequestPanel implements Runnable {
         jButton7.setBackground(new java.awt.Color(255, 255, 255));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/net/sf/jsharing/resources/add.gif"))); // NOI18N
         jButton7.setToolTipText("Save this IP to list.");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Deselect All");
@@ -157,7 +165,6 @@ public class DownloadPanel extends RequestPanel implements Runnable {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 369, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,9 +172,9 @@ public class DownloadPanel extends RequestPanel implements Runnable {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7))
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
@@ -192,7 +199,6 @@ public class DownloadPanel extends RequestPanel implements Runnable {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -201,14 +207,14 @@ public class DownloadPanel extends RequestPanel implements Runnable {
                         .addComponent(jLabel2))
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +229,15 @@ public class DownloadPanel extends RequestPanel implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        MainWindow.mw.removePanel(this);
+        if(jButton1.getText().equals("Close")) {
+            NewRequestDialog.getNewRequestDialog().removePopupPanel(this.getPopupPanel());
+            MainWindow.mw.removePanel(this);
+            NewRequestDialog.getNewRequestDialog().removeRequestPanel(this);
+        } else if(jButton1.getText().equals("Stop")) {
+            client.setContinueDownload(false);
+            jButton1.setEnabled(false);
+            jProgressBar1.setString("Stopping. Please wait.");
+        }
 }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -237,9 +251,21 @@ public class DownloadPanel extends RequestPanel implements Runnable {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         requestToggle(true);
-        t = new UninterruptibleThread(this, "Sending List to: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
-        t.start();
+        tDownload = new UninterruptibleThread(this, "Sending List to: " + to.getServerAddress().getHostAddress() + ", " + to.getPortNumber());
+        tDownload.start();
 }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        SavedIPInfo sip = new SavedIPInfo();
+        sip.setName(to.getComputerName());
+        sip.setIp(to.getServerAddress().getHostAddress());
+        sip.setPort(to.getPortNumber());
+
+        if(SavedIPInfoDialog.showSavedIPInfoDialog(MainWindow.mw, sip)) {
+            loadIPInfo();
+            MainWindow.mw.loadSavedIPs();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,10 +288,7 @@ public class DownloadPanel extends RequestPanel implements Runnable {
 
     private void populateTO() {
         if(to != null) {
-            String ipAddress = to.getServerAddress().getHostAddress();
-            this.jLabel2.setText(ipAddress);
-
-            jButton7.setVisible(!UsefulMethods.isIPSaved(ipAddress));
+            loadIPInfo();
 
             long totalSize = 0;
             for(FileInfo fi : to.getFiles()) {
@@ -311,7 +334,7 @@ public class DownloadPanel extends RequestPanel implements Runnable {
     private void downloadFiles() {
         if(to != null && !to.getFiles().isEmpty()) {
             to.setTaskType(UsefulMethods.DOWNLOAD_FILES);
-            Client client = new Client(to.getServerAddress(), to.getPortNumber());
+            client = new Client(to.getServerAddress(), to.getPortNumber());
             client.setOutputDirectory(saveToFile);
             try{
                 client.triggerServerTask(to);
@@ -345,6 +368,20 @@ public class DownloadPanel extends RequestPanel implements Runnable {
     private void requestToggle(boolean b) {
         jProgressBar1.setVisible(b);
         jButton3.setEnabled(!b);
-        jButton1.setEnabled(!b);
+        if(b)
+            jButton1.setText("Stop");
+        else
+            jButton1.setText("Close");
+    }
+
+    private void loadIPInfo() {
+        String ipAddress = to.getServerAddress().getHostAddress();
+        String shortName = to.getComputerName();
+        if(UsefulMethods.isIPSaved(ipAddress)) {
+            shortName = UsefulMethods.getShortNameOfIP(ipAddress);
+            jButton7.setVisible(false);
+        }
+
+        this.jLabel2.setText(shortName + ", " + ipAddress + ", " + to.getPortNumber());
     }
 }

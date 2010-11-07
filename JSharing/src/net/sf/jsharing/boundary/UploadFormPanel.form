@@ -119,6 +119,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="..."/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
@@ -131,6 +132,9 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinner1">
           <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="21212" maximum="60000" minimum="1025" numberType="java.lang.Integer" stepSize="1" type="number"/>
+            </Property>
             <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
               <SpinnerEditor format="#####" type="3"/>
             </Property>

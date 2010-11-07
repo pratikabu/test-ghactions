@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class TransferrableObject implements Serializable {
     private ArrayList<FileInfo> files = new ArrayList<FileInfo>();
+    private String computerName;
     private InetAddress serverAddress;
     private int portNumber;
     private int taskType;
@@ -75,5 +76,14 @@ public class TransferrableObject implements Serializable {
 
     public void setPortNumber(int portNumber) {
         this.portNumber = portNumber;
+    }
+    
+
+    public String getComputerName() {
+        return computerName;
+    }
+
+    public void setComputerName(String computerName) {
+        this.computerName = computerName;
     }
 }

@@ -13,6 +13,7 @@ package net.sf.jsharing.boundary;
 
 import net.sf.jsharing.components.RequestPanel;
 import net.sf.jsharing.components.TransferrableObject;
+import net.sf.jsharing.components.UsefulMethods;
 
 /**
  *
@@ -50,12 +51,15 @@ public class PopupPanel extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("  Download: ");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("<html><body>&nbsp;&nbsp;Download:&nbsp;</body></html>");
         jPanel1.add(jLabel1, java.awt.BorderLayout.LINE_START);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("<IP, Port Number>");
         jPanel1.add(jLabel2, java.awt.BorderLayout.CENTER);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("<html><body><a href=\"\">Show</a>&nbsp;&nbsp;</body></html>");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -72,6 +76,7 @@ public class PopupPanel extends javax.swing.JPanel {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         MainWindow.mw.focusOnPanel(rp);
         MainWindow.mw.setVisible(true);
+        NewRequestDialog.getNewRequestDialog().removePopupPanel(this);
 }//GEN-LAST:event_jLabel3MouseClicked
 
 
@@ -86,7 +91,13 @@ public class PopupPanel extends javax.swing.JPanel {
     private void loadData() {
         TransferrableObject to = rp.getTo();
         String ipAddress = to.getServerAddress().getHostAddress();
-        this.jLabel2.setText(ipAddress + ", " + to.getPortNumber());
+        
+        String shortName = to.getComputerName();
+        if(UsefulMethods.isIPSaved(ipAddress)) {
+            shortName = UsefulMethods.getShortNameOfIP(ipAddress);
+        }
+
+        this.jLabel2.setText(shortName + ", " + ipAddress + ", " + to.getPortNumber());
 
         if(rp instanceof DownloadPanel)
             jLabel1.setText("Download:");
