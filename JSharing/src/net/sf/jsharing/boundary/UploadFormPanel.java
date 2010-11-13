@@ -42,8 +42,8 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     public UploadFormPanel(SavedIPInfo sip) {
         initComponents();
 
-        jPanel1.setTransferHandler(new FileTransferHandler(this));
         initTable();
+        jPanel1.setTransferHandler(new FileTransferHandler(this));
         populateIPAndPort(sip);
         requestToggle(false);
     }
@@ -73,9 +73,6 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         jButton3 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
 
-        setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Details:"));
 
         jLabel7.setText("IP:");
@@ -125,8 +122,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Drag Files here:"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Upload Files:"));
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add");
@@ -172,16 +168,16 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -268,7 +264,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        MainWindow.mw.removePanel(this);
+        UploadDialog.getUD().removePanel(this);
 }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -367,7 +363,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         requestToggle(false);
 
         if(success)
-            MainWindow.mw.removePanel(this);
+            UploadDialog.getUD().removePanel(this);
     }
 
     private void requestToggle(boolean b) {
