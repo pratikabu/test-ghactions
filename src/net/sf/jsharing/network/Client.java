@@ -24,6 +24,7 @@ public class Client {
     private InetAddress serverAddress;
     private File saveToDirectory;
     private boolean continueDownload = true;
+    private int chunkSize;
 
     /**
      *
@@ -52,6 +53,7 @@ public class Client {
     private void init(InetAddress serverAddress, int portNumber) {
         this.portNumber = portNumber;
         this.serverAddress = serverAddress;
+        this.chunkSize = UsefulMethods.getChunkSize();
     }
 
     /**
@@ -105,7 +107,7 @@ public class Client {
             InputStream is = clientSocket.getInputStream();
             FileOutputStream fos = new FileOutputStream(new File(saveToDirectory, fi.getFileName()));
 
-            byte[] data = new byte[UsefulMethods.chunkSize];
+            byte[] data = new byte[chunkSize];
             int count;
             while(((count = is.read(data)) != -1) && continueDownload) {
                 fos.write(data, 0, count);

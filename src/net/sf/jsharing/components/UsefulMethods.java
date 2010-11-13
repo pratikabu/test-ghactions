@@ -35,22 +35,22 @@ public class UsefulMethods {
     public static final String P_PORT_NUMBER_KEY = "portNumber";
     public static final String P_LAST_SAVE_LOCATION = "lastSaveLoc";
     public static final String P_SERVER_NAME = "serverName";
+    public static final String P_MAIN_WINDOW_SHOW_ON_LOAD = "mainWindowShow";
+    public static final String P_SYSTEM_ICON_LOAD = "systemIconLoad";
+    public static final String P_CHUNK_SIZE = "chunkSize";
 
-    public static int chunkSize;
+    public static final String LOCAL_HOST_IP = "127.0.0.1";
+
     public static Log log;
 
-    static{
-        //load properties
+    public static void loadFiles(){
+        //1. load properties
         loadProperties();
 
-        //update the chunkSize
-        try {
-            chunkSize = Integer.parseInt(props.getProperty("chunksize"));
-        } catch(Exception e) {
-            chunkSize = 1024;
-        }
+        //2. load saved ips
+        loadSavedIPs();
 
-        //instantiate logger
+        //3. instantiate logger
         File folder = new File(FileModule.LOG_FOLDER);
         if(!folder.exists())
             folder.mkdirs();//create all folder if not available
@@ -62,7 +62,6 @@ public class UsefulMethods {
             e.printStackTrace();
         }
     }
-
     /**
      * Fetches the port number from the properties file.
      * If available then returns it else sets the default port number.
@@ -151,6 +150,9 @@ public class UsefulMethods {
         }
     }
 
+    private static void loadSavedIPs() {
+    }
+
     public static void saveProperties() {
         try {
             props.store(new FileOutputStream(new File(FileModule.PROPERTIES_LOCATION)), "The properties have been modified at: " + new Date());
@@ -183,5 +185,23 @@ public class UsefulMethods {
             return value;
         else
             return System.getProperty("user.name");
+    }
+
+    public static int getChunkSize() {
+        int chunkSize;
+        try {
+            chunkSize = Integer.parseInt(props.getProperty(P_CHUNK_SIZE));
+        } catch(Exception e) {
+            chunkSize = 1024;
+        }
+        return chunkSize;
+    }
+
+    public static boolean getBooleanDefaultTrue(String key) {
+        try {
+            return Boolean.parseBoolean(UsefulMethods.props.getProperty(key));
+        } catch (Exception e) {
+            return true;
+        }
     }
 }

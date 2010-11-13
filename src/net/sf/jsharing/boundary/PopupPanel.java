@@ -74,8 +74,7 @@ public class PopupPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        MainWindow.mw.focusOnPanel(rp);
-        MainWindow.mw.setVisible(true);
+        DownloadDialog.getDD().showDialog();
         NewRequestDialog.getNewRequestDialog().removePopupPanel(this);
 }//GEN-LAST:event_jLabel3MouseClicked
 

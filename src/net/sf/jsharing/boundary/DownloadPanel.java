@@ -75,8 +75,6 @@ public class DownloadPanel extends RequestPanel implements Runnable {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 255, 255));
-
         jLabel2.setText("<IP>");
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
@@ -231,7 +229,7 @@ public class DownloadPanel extends RequestPanel implements Runnable {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(jButton1.getText().equals("Close")) {
             NewRequestDialog.getNewRequestDialog().removePopupPanel(this.getPopupPanel());
-            MainWindow.mw.removePanel(this);
+            DownloadDialog.getDD().removePanel(this);
             NewRequestDialog.getNewRequestDialog().removeRequestPanel(this);
         } else if(jButton1.getText().equals("Stop")) {
             client.setContinueDownload(false);

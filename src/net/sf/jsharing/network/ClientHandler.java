@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import net.sf.jsharing.boundary.DownloadDialog;
 import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.TransferrableObject;
@@ -25,9 +26,11 @@ public class ClientHandler implements Runnable {
     private MyThread t;
     private Socket clientSocket;
     private TransferrableObject to;
+    private int chunkSize;
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
+        this.chunkSize = UsefulMethods.getChunkSize();
     }
 
     public void startHandling() {
@@ -66,7 +69,7 @@ public class ClientHandler implements Runnable {
             OutputStream os = clientSocket.getOutputStream();
             for(FileInfo fi : to.getFiles()) {
                 FileInputStream fis = new FileInputStream(fi.getAbsolutePath());
-                byte[] dataArray = new byte[UsefulMethods.chunkSize];
+                byte[] dataArray = new byte[chunkSize];
                 int count;
                 while ((count = fis.read(dataArray)) != -1) {
                     os.write(dataArray, 0, count);
@@ -81,6 +84,6 @@ public class ClientHandler implements Runnable {
     }
 
     private void populateFiles(TransferrableObject to) {
-        MainWindow.mw.openDownloadPanel(to);
+        DownloadDialog.getDD().addDownloadRequest(to);
     }
 }
