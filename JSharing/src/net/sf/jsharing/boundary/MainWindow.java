@@ -52,6 +52,7 @@ public class MainWindow extends javax.swing.JFrame {
         loadSavedIPs();
         this.jTable1.requestFocus();
         UsefulMethods.placeAtRightBottomLocation(this);
+        this.pack();
     }
 
     /** This method is called from within the constructor to
