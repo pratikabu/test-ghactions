@@ -7,7 +7,10 @@ package net.sf.jsharing;
 
 import javax.swing.UIManager;
 import net.sf.jsharing.boundary.MainWindow;
+import net.sf.jsharing.boundary.UpdateAvailable;
 import net.sf.jsharing.components.UsefulMethods;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.ThreadManager;
 
 /**
  *
@@ -40,6 +43,18 @@ public class InitializeJShaing {
         }
     }
 
+    private static void checkForUpdates() {
+        AbstractThread at = AbstractThread.createInstance(new Runnable() {
+            public void run() {
+                String version = UsefulMethods.checkForUpdate();
+                if(!version.equals(UsefulMethods.APPLICATION_VERSION))
+                    new UpdateAvailable(MainWindow.mw, version);
+            }
+        }, "Checking for updates.", ThreadManager.INTERRUPTIBLE_THREAD);
+
+        at.start();
+    }
+
     public static void main(String args[]) {
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -48,5 +63,6 @@ public class InitializeJShaing {
         initPrerequisiteFiles();
         initMainWindow();
         initSystemIcon();
+        checkForUpdates();
     }
 }

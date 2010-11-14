@@ -8,8 +8,8 @@ package net.sf.jsharing.components;
 import javax.swing.JPanel;
 import net.sf.jsharing.boundary.NewRequestDialog;
 import net.sf.jsharing.boundary.PopupPanel;
-import net.sf.jsharing.components.threads.InterruptibleThread;
-import net.sf.jsharing.components.threads.MyThread;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.implementation.InterruptibleThread;
 
 /**
  *
@@ -18,16 +18,22 @@ import net.sf.jsharing.components.threads.MyThread;
 public class RequestPanel extends JPanel {
     protected TransferrableObject to;
     private PopupPanel pp;
-    private MyThread t;
+    private AbstractThread t;
     private boolean canClose;
+    protected TransferrableObject sendToServer;
 
     public RequestPanel(TransferrableObject to) {
         this.to = to;
+        sendToServer = new TransferrableObject(this.to.getTaskType());
+        sendToServer.setComputerName(to.getComputerName());
+        sendToServer.setPortNumber(to.getPortNumber());
+        sendToServer.setServerAddress(to.getServerAddress());
+        
         t = new InterruptibleThread(new Runnable() {
             public void run() {
                 canClose = false;
                 try {
-                    MyThread.sleep(5000);
+                    AbstractThread.sleep(5000);
                 } catch(InterruptedException e) {
                 }
                 canClose = true;

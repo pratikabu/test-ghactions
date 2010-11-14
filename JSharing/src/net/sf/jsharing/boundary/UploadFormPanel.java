@@ -24,10 +24,10 @@ import net.sf.jsharing.components.FileTransferHandler;
 import net.sf.jsharing.components.SavedIPInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
-import net.sf.jsharing.components.threads.MyThread;
-import net.sf.jsharing.components.threads.UninterruptibleThread;
 import net.sf.jsharing.network.Client;
 import org.apache.log4j.Level;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.implementation.UninterruptibleThread;
 
 /**
  *
@@ -36,7 +36,7 @@ import org.apache.log4j.Level;
 public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     private TransferrableObject to;
     private LinkedHashSet<File> serverFiles = new LinkedHashSet<File>();
-    private MyThread t;
+    private AbstractThread t;
 
     /** Creates new form UploadFormPanel */
     public UploadFormPanel(SavedIPInfo sip) {
@@ -270,8 +270,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(!MainWindow.mw.isServerRunning())
             return;
-
-        requestToggle(true);
+        
         t = new UninterruptibleThread(this, "Sending List to: " + jTextField1.getText() + ", " + (Integer)jSpinner1.getValue());
         t.start();
 }//GEN-LAST:event_jButton3ActionPerformed
@@ -296,8 +295,10 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
     // End of variables declaration//GEN-END:variables
 
     private void addServerFiles(File file) {
-        serverFiles.add(file);
-        resetTabelData();
+        if(file.isFile()) {
+            serverFiles.add(file);
+            resetTabelData();
+        }
     }
 
     /**
@@ -332,8 +333,21 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         to.setPortNumber(UsefulMethods.getPortNumber());
         to.setComputerName(UsefulMethods.getComputerName());
 
-        for(File file : serverFiles)
-            to.addFile(file);
+        int i = 0;
+        for(File file : serverFiles) {
+            boolean selected = (Boolean)jTable1.getValueAt(i, 0);
+            if(selected)
+                to.addFile(file);
+            i++;
+        }
+
+        //do not go further if empty
+        if(to.getFiles().isEmpty()) {
+            JOptionPane.showMessageDialog(UploadDialog.getUD(), "There are no files to be sent.");
+            return;
+        }
+
+        requestToggle(true);
 
         Client client = null;
 

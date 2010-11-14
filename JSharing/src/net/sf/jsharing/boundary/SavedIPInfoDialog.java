@@ -31,7 +31,7 @@ public class SavedIPInfoDialog extends javax.swing.JDialog {
         initComponents();
 
         loadSIP();
-        this.setLocationRelativeTo(MainWindow.mw);
+        this.setLocationRelativeTo(parent);
         this.setVisible(true);
     }
 

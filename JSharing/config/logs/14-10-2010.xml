@@ -697,3 +697,765 @@
 <log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
 </log4j:event>
 
+<log4j:event logger="JSharing Logs" timestamp="1289728370085" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728384227" level="WARN" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Server cannot start.]]></log4j:message>
+<log4j:throwable><![CDATA[java.net.BindException: Address already in use: JVM_Bind
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:365)
+	at java.net.ServerSocket.bind(ServerSocket.java:319)
+	at java.net.ServerSocket.<init>(ServerSocket.java:185)
+	at java.net.ServerSocket.<init>(ServerSocket.java:97)
+	at net.sf.jsharing.network.Server.startServer(Server.java:34)
+	at net.sf.jsharing.boundary.MainWindow.startServer(MainWindow.java:481)
+	at net.sf.jsharing.boundary.MainWindow.<init>(MainWindow.java:45)
+	at net.sf.jsharing.InitializeJShaing$1.run(InitializeJShaing.java:25)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:209)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:597)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728397340" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728404107" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728408345" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Port Number Change to 21213.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728421356" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728424522" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728426879" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728430738" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728634419" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728637204" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728644385" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728655099" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728658031" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Force Shutdown.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728659275" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728673582" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728676219" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Force Shutdown.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728677867" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728681443" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728688043" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728696691" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Port Number Change to 21212.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728708331" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728809067" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728813620" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728827174" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289728834947" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289729185679" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289729202564" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289729216440" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289729229628" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730456048" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730481611" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730600979" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730606733" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730665729" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730689876" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730732240" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730747796" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730783737" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289730801316" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731046696" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731056803" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731079750" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731087205" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731089441" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289731093336" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289734263884" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289734268283" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289734510833" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289734568345" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289734588252" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289735709743" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289735798673" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289735959503" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289735999147" level="ERROR" thread="Sending List to: 127.0.0.1, 21212">
+<log4j:message><![CDATA[Cannot connect to request IP and port.]]></log4j:message>
+<log4j:throwable><![CDATA[java.net.SocketException: Software caused connection abort: socket write error
+	at java.net.SocketOutputStream.socketWrite0(Native Method)
+	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:92)
+	at java.net.SocketOutputStream.write(SocketOutputStream.java:136)
+	at java.io.ObjectOutputStream$BlockDataOutputStream.drain(ObjectOutputStream.java:1838)
+	at java.io.ObjectOutputStream$BlockDataOutputStream.setBlockDataMode(ObjectOutputStream.java:1747)
+	at java.io.ObjectOutputStream.writeNonProxyDesc(ObjectOutputStream.java:1249)
+	at java.io.ObjectOutputStream.writeClassDesc(ObjectOutputStream.java:1203)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1387)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1150)
+	at java.io.ObjectOutputStream.writeFatalException(ObjectOutputStream.java:1538)
+	at java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:329)
+	at net.sf.jsharing.network.Client.processTransferrableObject(Client.java:97)
+	at net.sf.jsharing.network.Client.triggerServerTask(Client.java:74)
+	at net.sf.jsharing.boundary.UploadFormPanel.run(UploadFormPanel.java:353)
+	at java.lang.Thread.run(Thread.java:619)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736012730" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736076474" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736085705" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736102915" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736127426" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736252585" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736269778" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289736933814" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737059482" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737315931" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737326003" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737337714" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737355485" level="WARN" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Server cannot start.]]></log4j:message>
+<log4j:throwable><![CDATA[java.net.BindException: Address already in use: JVM_Bind
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:365)
+	at java.net.ServerSocket.bind(ServerSocket.java:319)
+	at java.net.ServerSocket.<init>(ServerSocket.java:185)
+	at java.net.ServerSocket.<init>(ServerSocket.java:97)
+	at net.sf.jsharing.network.Server.startServer(Server.java:34)
+	at net.sf.jsharing.boundary.MainWindow.startServer(MainWindow.java:591)
+	at net.sf.jsharing.boundary.MainWindow.<init>(MainWindow.java:48)
+	at net.sf.jsharing.InitializeJShaing$1.run(InitializeJShaing.java:25)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:209)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:597)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737362009" level="WARN" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Server cannot stop.]]></log4j:message>
+<log4j:throwable><![CDATA[java.lang.NullPointerException
+	at net.sf.jsharing.network.Server.shutdownServer(Server.java:47)
+	at net.sf.jsharing.boundary.MainWindow.shutDownServer(MainWindow.java:620)
+	at net.sf.jsharing.boundary.MainWindow.exitProgram(MainWindow.java:673)
+	at net.sf.jsharing.boundary.MainWindow.jMenuItem5ActionPerformed(MainWindow.java:449)
+	at net.sf.jsharing.boundary.MainWindow.access$800(MainWindow.java:35)
+	at net.sf.jsharing.boundary.MainWindow$11.actionPerformed(MainWindow.java:312)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1995)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2318)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:387)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:242)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:357)
+	at javax.swing.plaf.basic.BasicMenuItemUI.doClick(BasicMenuItemUI.java:1223)
+	at javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(BasicMenuItemUI.java:1264)
+	at java.awt.Component.processMouseEvent(Component.java:6267)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3267)
+	at java.awt.Component.processEvent(Component.java:6032)
+	at java.awt.Container.processEvent(Container.java:2041)
+	at java.awt.Component.dispatchEventImpl(Component.java:4630)
+	at java.awt.Container.dispatchEventImpl(Container.java:2099)
+	at java.awt.Component.dispatchEvent(Component.java:4460)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4577)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4238)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4168)
+	at java.awt.Container.dispatchEventImpl(Container.java:2085)
+	at java.awt.Window.dispatchEventImpl(Window.java:2478)
+	at java.awt.Component.dispatchEvent(Component.java:4460)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:599)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737363655" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737365292" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737383570" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737414330" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289737420329" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739211345" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739213050" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739221136" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739295046" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739776133" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739815841" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739830170" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Force Shutdown.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289739832377" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740249339" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740270041" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740536097" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740551825" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740724398" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740756832" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740793503" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740803259" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740883058" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740901769" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740917458" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289740922025" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289741470487" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289741477128" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742524782" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742529153" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742542486" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742564481" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742865520" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742880850" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742892494" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742903018" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289742961320" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743013922" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743265504" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743275290" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743314697" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743385262" level="WARN" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Server cannot start.]]></log4j:message>
+<log4j:throwable><![CDATA[java.net.BindException: Address already in use: JVM_Bind
+	at java.net.PlainSocketImpl.socketBind(Native Method)
+	at java.net.PlainSocketImpl.bind(PlainSocketImpl.java:365)
+	at java.net.ServerSocket.bind(ServerSocket.java:319)
+	at java.net.ServerSocket.<init>(ServerSocket.java:185)
+	at java.net.ServerSocket.<init>(ServerSocket.java:97)
+	at net.sf.jsharing.network.Server.startServer(Server.java:34)
+	at net.sf.jsharing.boundary.MainWindow.startServer(MainWindow.java:608)
+	at net.sf.jsharing.boundary.MainWindow.<init>(MainWindow.java:50)
+	at net.sf.jsharing.InitializeJShaing$1.run(InitializeJShaing.java:25)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:209)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:597)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743393960" level="WARN" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Server cannot stop.]]></log4j:message>
+<log4j:throwable><![CDATA[java.lang.NullPointerException
+	at net.sf.jsharing.network.Server.shutdownServer(Server.java:47)
+	at net.sf.jsharing.boundary.MainWindow.shutDownServer(MainWindow.java:637)
+	at net.sf.jsharing.boundary.MainWindow.exitProgram(MainWindow.java:698)
+	at net.sf.jsharing.boundary.MainWindow.access$000(MainWindow.java:37)
+	at net.sf.jsharing.boundary.MainWindow$1.windowClosing(MainWindow.java:54)
+	at java.awt.AWTEventMulticaster.windowClosing(AWTEventMulticaster.java:333)
+	at java.awt.Window.processWindowEvent(Window.java:1865)
+	at javax.swing.JFrame.processWindowEvent(JFrame.java:274)
+	at java.awt.Window.processEvent(Window.java:1823)
+	at java.awt.Component.dispatchEventImpl(Component.java:4630)
+	at java.awt.Container.dispatchEventImpl(Container.java:2099)
+	at java.awt.Window.dispatchEventImpl(Window.java:2478)
+	at java.awt.Component.dispatchEvent(Component.java:4460)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:599)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743406921" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743738590" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743746825" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743760359" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743766008" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743775385" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743778371" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743899207" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743913020" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743946044" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289743970428" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289752035269" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289752115365" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Port change request initiated.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289752119150" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Force Shutdown.]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289752317854" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289752937620" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753080067" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753101319" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753199088" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753216023" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753304563" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289753422671" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754440878" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754465583" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754562476" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754584020" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754722259" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754872751" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754981834" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289754999707" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289755394651" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289755404620" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289755437454" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289755479783" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289757734392" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289757881888" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289757969224" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289757987973" level="ERROR" thread="Sending List to: 192.168.1.8, 21212">
+<log4j:message><![CDATA[Cannot connect to request IP and port.]]></log4j:message>
+<log4j:throwable><![CDATA[java.net.ConnectException: Connection refused: connect
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366)
+	at java.net.Socket.connect(Socket.java:529)
+	at java.net.Socket.connect(Socket.java:478)
+	at java.net.Socket.<init>(Socket.java:375)
+	at java.net.Socket.<init>(Socket.java:218)
+	at net.sf.jsharing.network.Client.connectToServer(Client.java:84)
+	at net.sf.jsharing.network.Client.triggerServerTask(Client.java:73)
+	at net.sf.jsharing.boundary.UploadFormPanel.run(UploadFormPanel.java:367)
+	at java.lang.Thread.run(Thread.java:619)
+]]></log4j:throwable>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289758221733" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289759204432" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289759209669" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289759234213" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Start request of the server. Reason: Normal startup of Server..]]></log4j:message>
+</log4j:event>
+
+<log4j:event logger="JSharing Logs" timestamp="1289759331383" level="INFO" thread="AWT-EventQueue-0">
+<log4j:message><![CDATA[Shutdown request of the server. Reason: Normal termination of program..]]></log4j:message>
+</log4j:event>
+

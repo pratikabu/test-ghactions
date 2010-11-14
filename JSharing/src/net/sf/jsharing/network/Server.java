@@ -2,8 +2,8 @@ package net.sf.jsharing.network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import net.sf.jsharing.components.threads.InterruptibleThread;
-import net.sf.jsharing.components.threads.MyThread;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.implementation.InterruptibleThread;
 
 /**
  *
@@ -51,7 +51,7 @@ public class Server {
      * This method will iterate and accepts client connections until the server is shutdown.
      */
     private void startAcceptingClient() {
-        MyThread t = new InterruptibleThread(new Runnable() {
+        AbstractThread t = new InterruptibleThread(new Runnable() {
             public void run() {
                 while (continueListening) {
                     try {

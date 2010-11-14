@@ -18,10 +18,12 @@ import net.sf.jsharing.components.UsefulMethods;
  * @author Pratik
  */
 public class PortNumber extends javax.swing.JDialog {
+    private boolean editable;
 
     /** Creates new form PortNumber */
-    private PortNumber(java.awt.Frame parent) {
+    private PortNumber(java.awt.Frame parent, boolean editable) {
         super(parent, true);
+        this.editable = editable;
         initComponents();
         
         initPort();
@@ -29,7 +31,11 @@ public class PortNumber extends javax.swing.JDialog {
     }
 
     public static void showPortNumber(java.awt.Frame parent) {
-        new PortNumber(parent).setVisible(true);
+        new PortNumber(parent, true).setVisible(true);
+    }
+
+    public static void showPortNumber(java.awt.Frame parent, boolean editable) {
+        new PortNumber(parent, editable).setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -91,7 +97,8 @@ public class PortNumber extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        UsefulMethods.props.setProperty(UsefulMethods.P_PORT_NUMBER_KEY, jSpinner1.getValue().toString());
+        if(editable)
+            UsefulMethods.props.setProperty(UsefulMethods.P_PORT_NUMBER_KEY, jSpinner1.getValue().toString());
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -103,6 +110,11 @@ public class PortNumber extends javax.swing.JDialog {
 
     private void initPort() {
         jSpinner1.setValue(UsefulMethods.getPortNumber());
+
+        if(!editable) {
+            jButton1.setText("Close");
+            this.jSpinner1.setEnabled(editable);
+        }
     }
 
 }
