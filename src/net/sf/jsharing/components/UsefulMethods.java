@@ -6,23 +6,31 @@
 package net.sf.jsharing.components;
 
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
+import net.sf.jsharing.boundary.MainWindow;
 import org.apache.log4j.Level;
 import pratikabu.logging.log4j.FileLog;
 import pratikabu.logging.log4j.Log;
@@ -47,7 +55,17 @@ public class UsefulMethods {
 
     public static final String LOCAL_HOST_IP = "127.0.0.1";
 
+    public static final String URL_HOME_PAGE = "http://pratikabu.users.sourceforge.net";
+    public static final String URL_JSHARING_HOME_PAGE = "http://jsharing.sourceforge.net";
+    public static final String URL_HOW_TO_USE_PAGE = URL_JSHARING_HOME_PAGE + "/how_to_use/index.html";
+    public static final String URL_LATEST_VERSION = URL_JSHARING_HOME_PAGE + "/latest_vesrion.txt";
+    public static final String URL_UPDATE_PAGE = URL_JSHARING_HOME_PAGE + "/update/index.html";
+
     public static Log log;
+
+    public static final String APPLICATION_VERSION = "0.0.1";
+
+    private static long uploadedBytesCount = 0, downloadedBytesCount = 0;
 
     public static void loadData(){
         //1. load properties
@@ -259,5 +277,78 @@ public class UsefulMethods {
         } catch (Exception e) {
             return true;
         }
+    }
+
+    public static void browse(String urlStr) {
+        if(Desktop.isDesktopSupported()) {
+            try{
+                Desktop.getDesktop().browse(new URI(urlStr));
+            } catch(Exception e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(MainWindow.mw, "Cannot open the URL. Kindly open this url\n"
+                    + "from your browser:\n"
+                    + urlStr);
+        }
+    }
+    
+    /**
+     *
+     * @param urlString the address of the source file
+     * @param outputFile the location of the destination file
+     * @return
+     */
+    public static String checkForUpdate() {
+        InputStream is = null;
+        ByteArrayOutputStream bos = null;
+        try {
+            URL url = new URL(URL_LATEST_VERSION);
+            URLConnection ucnn = url.openConnection();
+
+            bos = new ByteArrayOutputStream();
+            is = ucnn.getInputStream();
+
+            byte[] data = new byte[256];
+            int offset;
+            while ((offset = is.read(data)) != -1) {
+                bos.write(data, 0, offset);
+            }
+
+            return bos.toString();
+        } catch (Exception ex) {
+//                ex.printStackTrace();
+        }finally{
+            try{
+                is.close();
+            }catch(Exception e){
+            }
+            try{
+                bos.close();
+            }catch(Exception e){
+            }
+        }
+
+        return null;
+    }
+
+    public static synchronized void addUploadedBytes(long bytes) {
+        uploadedBytesCount += bytes;
+    }
+
+    public static synchronized void addDownloadedBytes(long bytes) {
+        downloadedBytesCount += bytes;
+    }
+
+    public static long getDownloadedBytesCount() {
+        return downloadedBytesCount;
+    }
+
+    public static long getUploadedBytesCount() {
+        return uploadedBytesCount;
+    }
+
+    public static synchronized void clearCounters() {
+        downloadedBytesCount = 0;
+        uploadedBytesCount = 0;
     }
 }

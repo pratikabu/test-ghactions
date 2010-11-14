@@ -25,11 +25,11 @@ import net.sf.jsharing.components.RequestPanel;
 import net.sf.jsharing.components.SavedIPInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
-import net.sf.jsharing.components.threads.MyThread;
-import net.sf.jsharing.components.threads.UninterruptibleThread;
 import net.sf.jsharing.network.Client;
 import net.sf.jsharing.network.NetworkActivity;
 import org.apache.log4j.Level;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.implementation.UninterruptibleThread;
 
 /**
  *
@@ -37,7 +37,7 @@ import org.apache.log4j.Level;
  */
 public class DownloadPanel extends RequestPanel implements Runnable, NetworkActivity {
     private File saveToFile;
-    private MyThread tDownload;
+    private AbstractThread tDownload;
     private Client client;
 
     private int downloadCounter = 0, totalFiles;
@@ -93,7 +93,6 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
         jLabel11 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
-        jProgressBar1 = new javax.swing.JProgressBar();
 
         jMenuItem1.setMnemonic('C');
         jMenuItem1.setText("Copy");
@@ -209,7 +208,7 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
@@ -307,10 +306,6 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
 
         jPanel1.add(jPanel3, "card2");
 
-        jProgressBar1.setIndeterminate(true);
-        jProgressBar1.setString("Downloading Files");
-        jProgressBar1.setStringPainted(true);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -326,8 +321,6 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
@@ -343,12 +336,11 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
                         .addComponent(jLabel2))
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -361,7 +353,6 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
         } else if(jButton1.getText().equals("Stop")) {
             client.setContinueDownload(false);
             jButton1.setEnabled(false);
-            jProgressBar1.setString("Stopping. Please wait.");
         }
 }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -389,7 +380,7 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
         sip.setIp(to.getServerAddress().getHostAddress());
         sip.setPort(to.getPortNumber());
 
-        if(SavedIPInfoDialog.showSavedIPInfoDialog(MainWindow.mw, sip)) {
+        if(SavedIPInfoDialog.showSavedIPInfoDialog(DownloadDialog.getDD(), sip)) {
             loadIPInfo();
             MainWindow.mw.loadSavedIPs();
         }
@@ -438,7 +429,6 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -487,29 +477,31 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
 
     private void prepareDownloadFiles() {
         int i = 0;
+        sendToServer.getFiles().clear();
         for(FileInfo fi : to.getFiles()) {
-            fi.setDownloadMarked((Boolean)jTable1.getValueAt(i, 0));
+            boolean selected = (Boolean)jTable1.getValueAt(i, 0);
+            if(selected)
+                sendToServer.getFiles().add(fi);
+            i++;
         }
     }
 
     private void downloadFiles() {
-        if(to != null && !to.getFiles().isEmpty()) {
-            totalFiles = to.getFiles().size();
-            jProgressBar2.setMaximum(totalFiles);
-            to.setTaskType(UsefulMethods.DOWNLOAD_FILES);
-            message("Initializing client.");
-            client = new Client(to.getServerAddress(), to.getPortNumber(), this);
-            client.setOutputDirectory(saveToFile);
-            try{
-                message("Triggering client.");
-                client.triggerServerTask(to);
-            } catch(IOException e) {
-                String msg = "The system encountered problem while downloading files from Server.";
-                UsefulMethods.log.log(Level.ERROR, msg, e);//exception logged in the logger
-                JOptionPane.showMessageDialog(this, msg + "\n"
-                        + "The system replied with: "
-                        + e.getLocalizedMessage(), "Error while Downloading", JOptionPane.ERROR_MESSAGE);
-            }
+        totalFiles = sendToServer.getFiles().size();
+        jProgressBar2.setMaximum(totalFiles);
+        sendToServer.setTaskType(UsefulMethods.DOWNLOAD_FILES);
+        message("Initializing client.");
+        client = new Client(sendToServer.getServerAddress(), sendToServer.getPortNumber(), this);
+        client.setOutputDirectory(saveToFile);
+        try{
+            message("Triggering client.");
+            client.triggerServerTask(sendToServer);
+        } catch(IOException e) {
+            String msg = "The system encountered problem while downloading files from Server.";
+            UsefulMethods.log.log(Level.ERROR, msg, e);//exception logged in the logger
+            JOptionPane.showMessageDialog(this, msg + "\n"
+                    + "The system replied with: "
+                    + e.getLocalizedMessage(), "Error while Downloading", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -525,15 +517,20 @@ public class DownloadPanel extends RequestPanel implements Runnable, NetworkActi
     }
 
     public void run() {
-        startTabActivity();
         prepareDownloadFiles();
+
+        if(sendToServer.getFiles().isEmpty()) {
+            JOptionPane.showMessageDialog(DownloadDialog.getDD(), "Atleast one file must be selected to continue.");
+            return;
+        }
+
+        startTabActivity();
         downloadFiles();
         requestToggle(false);
         stopTabActivity();
     }
 
     private void requestToggle(boolean b) {
-        jProgressBar1.setVisible(b);
         if(b) {
             jButton1.setText("Stop");
         } else {

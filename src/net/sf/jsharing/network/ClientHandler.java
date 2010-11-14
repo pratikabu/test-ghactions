@@ -15,15 +15,15 @@ import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.components.FileInfo;
 import net.sf.jsharing.components.TransferrableObject;
 import net.sf.jsharing.components.UsefulMethods;
-import net.sf.jsharing.components.threads.MyThread;
-import net.sf.jsharing.components.threads.UninterruptibleThread;
+import pratikabu.threading.AbstractThread;
+import pratikabu.threading.implementation.UninterruptibleThread;
 
 /**
  *
  * @author Pratik
  */
 public class ClientHandler implements Runnable {
-    private MyThread t;
+    private AbstractThread t;
     private Socket clientSocket;
     private TransferrableObject to;
     private int chunkSize;
@@ -83,6 +83,7 @@ public class ClientHandler implements Runnable {
                     os.write(dataArray, 0, count);
                 }
                 fis.close();
+                UsefulMethods.addUploadedBytes(fi.getSize());
             }
             na.message("Closing Connection.");
             os.close();

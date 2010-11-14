@@ -64,15 +64,6 @@ public class TransferrableObject implements Serializable {
         this.files = files;
     }
 
-//    public ArrayList<FileInfo> getDownloadableFiles() {
-//        ArrayList<FileInfo> fis = new ArrayList<FileInfo>();
-//
-//        for(FileInfo fi : files)
-//            if(fi.isDownloadMarked())
-//                fis.add(fi);
-//        return fis;
-//    }
-
     public int getPortNumber() {
         return portNumber;
     }

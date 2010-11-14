@@ -127,6 +127,7 @@ public class Client {
             while(((count = is.read(data)) != -1) && continueDownload) {
                 fos.write(data, 0, count);
             }
+            UsefulMethods.addDownloadedBytes(fi.getSize());
             na.message("Closing connections and saving file.");
             fos.close();
             is.close();

@@ -32,9 +32,7 @@ public class FileTransferHandler extends TransferHandler {
         if (!canImport(c, t.getTransferDataFlavors())) {
             return false;
         }
-        //A real application would load the file in another
-        //thread in order to not block the UI. This step
-        //was omitted here to simplify the code.
+        
         try {
             if (hasFileFlavor(t.getTransferDataFlavors())) {
                 java.util.List files = (java.util.List) t.getTransferData(fileFlavor);
