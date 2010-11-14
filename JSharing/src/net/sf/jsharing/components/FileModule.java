@@ -17,4 +17,5 @@ public class FileModule {
     public static final String LIB_FOLDER = CONFIG_LOCATION + File.separatorChar + "lib";
     
     public static final String PROPERTIES_LOCATION = CONFIG_LOCATION + File.separatorChar + "jsharingproperties.properties";
+    public static final String SAVED_IP_LOCATION = CONFIG_LOCATION + File.separatorChar + "savedIPs.txt";
 }

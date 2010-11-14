@@ -16,7 +16,7 @@ import net.sf.jsharing.components.UsefulMethods;
 public class InitializeJShaing {
 
     private static void initPrerequisiteFiles() {
-        UsefulMethods.loadFiles();
+        UsefulMethods.loadData();
     }
     
     private static void initMainWindow() {

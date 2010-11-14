@@ -14,16 +14,27 @@ public class Server {
     private boolean continueListening = true;
     private int portNumber;
     private int state;
+    private NetworkActivity na;
 
     public static final int RUNNING = 1, STOPPED = 2, EXCEPTION_START = 3, EXCEPTION_STOP = 4;
+
+    public Server(NetworkActivity na) {
+        if(na != null)
+            this.na = na;
+        else
+            this.na = new DefaultClientActivity();
+    }
 
     /**
      * This method will try to start the server on the specified port number.
      * @return true if server started else false.
      */
     public void startServer() throws IOException {
-            serverSocket = new ServerSocket(portNumber);
-            startAcceptingClient();
+        na.message("Instantiating Server with port number.");
+        serverSocket = new ServerSocket(portNumber);
+        na.message("Starting AcceptClient Module.");
+        continueListening = true;
+        startAcceptingClient();
     }
 
     /**
@@ -44,7 +55,8 @@ public class Server {
             public void run() {
                 while (continueListening) {
                     try {
-                        new ClientHandler(serverSocket.accept()).startHandling();
+                        na.message("Waiting for client to connect.");
+                        new ClientHandler(serverSocket.accept(), na).startHandling();
                     } catch (IOException e) {
                         System.out.println("Error connecting with client.");
                         System.out.println("Error Message: " + e.getMessage());
