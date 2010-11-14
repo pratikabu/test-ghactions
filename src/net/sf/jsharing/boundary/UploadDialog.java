@@ -4,9 +4,9 @@
  */
 
 /*
- * DownloadDialog.java
+ * UploadDialog.java
  *
- * Created on 14 Nov, 2010, 12:42:50 AM
+ * Created on 14 Nov, 2010, 11:10:41 AM
  */
 
 package net.sf.jsharing.boundary;
@@ -19,20 +19,19 @@ import net.sf.jsharing.components.UsefulMethods;
  *
  * @author Pratik
  */
-public class UploadDialog extends javax.swing.JDialog {
+public class UploadDialog extends javax.swing.JFrame {
     private static UploadDialog dd;
 
-    /** Creates new form DownloadDialog */
-    private UploadDialog(java.awt.Frame parent) {
-        super(parent, false);
+    /** Creates new form UploadDialog */
+    private UploadDialog() {
         initComponents();
 
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(null);
     }
 
     public static UploadDialog getUD() {
         if(dd == null)
-            dd = new UploadDialog(null);
+            dd = new UploadDialog();
         return dd;
     }
 
@@ -47,8 +46,7 @@ public class UploadDialog extends javax.swing.JDialog {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Upload Dialog");
+        setTitle("Upload Dialog- JSharing");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,6 +111,7 @@ public class UploadDialog extends javax.swing.JDialog {
     public void showDialog() {
         if(!this.isVisible())
             this.setVisible(true);
+        this.pack();
     }
 
     public void closeDialog() {

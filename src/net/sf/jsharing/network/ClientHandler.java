@@ -27,15 +27,19 @@ public class ClientHandler implements Runnable {
     private Socket clientSocket;
     private TransferrableObject to;
     private int chunkSize;
+    private NetworkActivity na;
 
-    public ClientHandler(Socket clientSocket) {
+    public ClientHandler(Socket clientSocket, NetworkActivity na) {
         this.clientSocket = clientSocket;
         this.chunkSize = UsefulMethods.getChunkSize();
+        this.na = na;
     }
 
     public void startHandling() {
         try {
+            na.message("Client connected, getting InputStream.");
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+            na.message("Preparing TransferrableObject.");
             to = (TransferrableObject)ois.readObject();
             to.setServerAddress(clientSocket.getInetAddress());
 
@@ -57,17 +61,21 @@ public class ClientHandler implements Runnable {
 
     private void processRequest() {
         if(to.getTaskType() == UsefulMethods.PROCESS_TRANSFERRABLE_OBJECT) {
+            na.message("Populating files.");
             populateFiles(to);
         } else if(to.getTaskType() == UsefulMethods.DOWNLOAD_FILES) {
-            System.out.println("Request to upload from: " + clientSocket.getInetAddress().getHostAddress());
+            na.message("Upload request from: " + clientSocket.getInetAddress().getHostAddress());
             uploadFile(to);
         }
+        na.message("Waiting for client to connect.");
     }
 
     private void uploadFile(TransferrableObject to) {
         try {
+            na.message("Getting client's OutputStream.");
             OutputStream os = clientSocket.getOutputStream();
             for(FileInfo fi : to.getFiles()) {
+                na.message("Sending File: " + fi.getFileName());
                 FileInputStream fis = new FileInputStream(fi.getAbsolutePath());
                 byte[] dataArray = new byte[chunkSize];
                 int count;
@@ -76,6 +84,7 @@ public class ClientHandler implements Runnable {
                 }
                 fis.close();
             }
+            na.message("Closing Connection.");
             os.close();
             clientSocket.close();
         } catch (IOException e) {

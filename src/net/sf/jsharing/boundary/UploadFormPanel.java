@@ -79,7 +79,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 
         jTextField1.setText("192.168.1.7");
 
-        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setBackground(null);
         jButton4.setText("...");
         jButton4.setFocusable(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +124,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Upload Files:"));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setBackground(null);
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,7 +192,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
                 .addContainerGap())
         );
 
-        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setBackground(null);
         jButton7.setText("Close");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,7 +200,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setBackground(null);
         jButton3.setText("Send");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,7 +338,7 @@ public class UploadFormPanel extends javax.swing.JPanel implements Runnable {
         Client client = null;
 
         try{
-            client = new Client(jTextField1.getText(), (Integer)jSpinner1.getValue());
+            client = new Client(jTextField1.getText(), (Integer)jSpinner1.getValue(), null);
         } catch(UnknownHostException e) {
             success = false;
             JOptionPane.showMessageDialog(this, "Unknown Host Exception is thrown.\n"

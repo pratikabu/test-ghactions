@@ -6,11 +6,12 @@
 /*
  * DownloadDialog.java
  *
- * Created on 14 Nov, 2010, 12:42:50 AM
+ * Created on 14 Nov, 2010, 11:13:05 AM
  */
 
 package net.sf.jsharing.boundary;
 
+import java.awt.Component;
 import javax.swing.JPanel;
 import net.sf.jsharing.components.TransferrableObject;
 
@@ -18,20 +19,20 @@ import net.sf.jsharing.components.TransferrableObject;
  *
  * @author Pratik
  */
-public class DownloadDialog extends javax.swing.JDialog {
+public class DownloadDialog extends javax.swing.JFrame {
     private static DownloadDialog dd;
+    private int tabsDownloding = 0;
 
     /** Creates new form DownloadDialog */
-    private DownloadDialog(java.awt.Frame parent) {
-        super(parent, false);
+    private DownloadDialog() {
         initComponents();
 
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(null);
     }
 
     public static DownloadDialog getDD() {
         if(dd == null)
-            dd = new DownloadDialog(null);
+            dd = new DownloadDialog();
         return dd;
     }
 
@@ -45,9 +46,16 @@ public class DownloadDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Download Dialog");
+        setTitle("Download Dialog- JSharing");
+
+        jProgressBar1.setIndeterminate(true);
+        jProgressBar1.setString("6 Tabs Downloading");
+        jProgressBar1.setStringPainted(true);
+
+        jLabel1.setText("No Tab Active");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,14 +63,23 @@ public class DownloadDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                        .addComponent(jLabel1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
 
@@ -70,6 +87,8 @@ public class DownloadDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 
@@ -100,10 +119,59 @@ public class DownloadDialog extends javax.swing.JDialog {
     public void showDialog() {
         if(!this.isVisible())
             this.setVisible(true);
+        toggleProgressBar();
+        this.pack();
     }
 
     public void closeDialog() {
         if(this.isVisible())
             this.setVisible(false);
+    }
+
+    public void startDownloading(JPanel p) {
+        tabsDownloding++;
+        toggleProgressBar();
+
+        int i = 0;
+        for(Component c : jTabbedPane1.getComponents()) {
+            if(c == p) {
+                jTabbedPane1.setTitleAt(i, "<html><body><b>" + jTabbedPane1.getTitleAt(i) + " *</b></body></html>");
+                break;
+            }
+            i++;
+        }
+    }
+
+    public void stopDownloading(JPanel p) {
+        tabsDownloding--;
+        toggleProgressBar();
+
+        int i = 0;
+        for(Component c : jTabbedPane1.getComponents()) {
+            if(c == p) {
+                String newTitle = jTabbedPane1.getTitleAt(i);
+                newTitle = newTitle.replaceAll("<html><body><b>", "");
+                newTitle = newTitle.replaceAll("</b></body></html>", "");
+                jTabbedPane1.setTitleAt(i, newTitle.substring(0, newTitle.length() - 2));
+                break;
+            }
+            i++;
+        }
+    }
+
+    private void toggleProgressBar() {
+        if(tabsDownloding == 0) {
+            this.jProgressBar1.setVisible(false);
+            this.jLabel1.setVisible(true);
+        } else {
+            String append = " Downloading";
+            if(tabsDownloding == 1)
+                append = " Tab" + append;
+            else
+                append = " Tabs" + append;
+            this.jProgressBar1.setString(tabsDownloding + append);
+            this.jProgressBar1.setVisible(true);
+            this.jLabel1.setVisible(false);
+        }
     }
 }

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -20,9 +21,11 @@ public class TransferrableObject implements Serializable {
     private InetAddress serverAddress;
     private int portNumber;
     private int taskType;
+    private long timeStamp;
 
     public TransferrableObject(int taskType) {
         this.taskType = taskType;
+        timeStamp = new Date().getTime();
     }
 
     public InetAddress getServerAddress() {
@@ -85,5 +88,9 @@ public class TransferrableObject implements Serializable {
 
     public void setComputerName(String computerName) {
         this.computerName = computerName;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 }

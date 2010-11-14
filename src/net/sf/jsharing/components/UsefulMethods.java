@@ -10,13 +10,17 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Properties;
 import javax.swing.filechooser.FileSystemView;
 import org.apache.log4j.Level;
@@ -30,6 +34,8 @@ import pratikabu.logging.log4j.Log;
 public class UsefulMethods {
     public static int DOWNLOAD_FILES = 1, PROCESS_TRANSFERRABLE_OBJECT = 2;
     public static Properties props = new Properties();
+
+    //key=ip, value=sip
     public static LinkedHashMap<String, SavedIPInfo> savedIPs = new LinkedHashMap<String, SavedIPInfo>();
 
     public static final String P_PORT_NUMBER_KEY = "portNumber";
@@ -43,7 +49,7 @@ public class UsefulMethods {
 
     public static Log log;
 
-    public static void loadFiles(){
+    public static void loadData(){
         //1. load properties
         loadProperties();
 
@@ -145,17 +151,67 @@ public class UsefulMethods {
 
     private static void loadProperties() {
         try {
-            props.load(new FileInputStream(new File(FileModule.PROPERTIES_LOCATION)));
+            FileInputStream fis = new FileInputStream(new File(FileModule.PROPERTIES_LOCATION));
+            props.load(fis);
+            fis.close();
         } catch(IOException e) {
         }
     }
 
     private static void loadSavedIPs() {
+        try {
+            FileReader fr = new FileReader(new File(FileModule.SAVED_IP_LOCATION));
+            BufferedReader br = new BufferedReader(fr);
+
+            String line;
+            while((line = br.readLine()) != null) {
+                try {
+                    SavedIPInfo sip = new SavedIPInfo();
+                    String[] data = line.split(",");
+                    sip.setIp(data[0]);
+                    sip.setName(data[1]);
+                    sip.setPort(Integer.parseInt(data[2]));
+
+                    savedIPs.put(sip.getIp(), sip);
+                } catch(Exception e) {
+                    //error parsing the file
+                }
+            }
+
+            br.close();
+            fr.close();
+        } catch(IOException e) {
+        }
+    }
+
+    public static void saveData() {
+        saveProperties();
+        saveSavedIPs();
     }
 
     public static void saveProperties() {
         try {
             props.store(new FileOutputStream(new File(FileModule.PROPERTIES_LOCATION)), "The properties have been modified at: " + new Date());
+        } catch(IOException e) {
+            log.log(Level.ERROR, "Error saving properties file.", e);
+        }
+    }
+
+    public static void saveSavedIPs() {
+        try {
+            PrintWriter pw = new PrintWriter(new File(FileModule.SAVED_IP_LOCATION));
+            boolean firstLine = true;
+
+            for(Entry<String, SavedIPInfo> entry : savedIPs.entrySet()) {
+                SavedIPInfo sip = entry.getValue();
+                if(firstLine)
+                    firstLine = false;
+                else
+                    pw.println();
+
+                pw.print(sip.getIp() + "," + sip.getName() + "," + sip.getPort());
+            }
+            pw.close();
         } catch(IOException e) {
             log.log(Level.ERROR, "Error saving properties file.", e);
         }
