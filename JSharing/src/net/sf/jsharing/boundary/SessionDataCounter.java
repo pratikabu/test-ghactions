@@ -233,10 +233,14 @@ public class SessionDataCounter extends javax.swing.JDialog {
 
     private void initData() {
         //session data
-        this.jLabel3.setText(UsefulMethods.getFileSize(UsefulMethods.getUploadedBytesCount()));
-        this.jLabel4.setText(UsefulMethods.getFileSize(UsefulMethods.getDownloadedBytesCount()));
+        this.jLabel3.setText(UsefulMethods.getFileSize(UsefulMethods.getTotalUploadedBytesCount() -
+                UsefulMethods.getLastSavedUploadCount()));
+        this.jLabel4.setText(UsefulMethods.getFileSize(UsefulMethods.getTotalDownloadedBytesCount() -
+                UsefulMethods.getLastSavedDownloadCount()));
 
         //TODO overall data
+        this.jLabel7.setText(UsefulMethods.getFileSize(UsefulMethods.getTotalUploadedBytesCount()));
+        this.jLabel8.setText(UsefulMethods.getFileSize(UsefulMethods.getTotalDownloadedBytesCount()));
     }
 
 }
