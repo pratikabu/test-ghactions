@@ -52,6 +52,8 @@ public class UsefulMethods {
     public static final String P_MAIN_WINDOW_SHOW_ON_LOAD = "mainWindowShow";
     public static final String P_SYSTEM_ICON_LOAD = "systemIconLoad";
     public static final String P_CHUNK_SIZE = "chunkSize";
+    public static final String P_LAST_UPLOAD_COUNT = "lastUploadCount";
+    public static final String P_LAST_DOWNLOAD_COUNT = "lastDownloadCount";
 
     public static final String LOCAL_HOST_IP = "127.0.0.1";
 
@@ -65,7 +67,7 @@ public class UsefulMethods {
 
     public static final String APPLICATION_VERSION = "0.0.1";
 
-    private static long uploadedBytesCount = 0, downloadedBytesCount = 0;
+    private static long totalUploadedBytesCount = 0, totalDownloadedBytesCount = 0;
 
     public static void loadData(){
         //1. load properties
@@ -85,6 +87,10 @@ public class UsefulMethods {
         } catch(IOException e) {
             e.printStackTrace();
         }
+
+        //4. load data counters
+        totalUploadedBytesCount = getLastSavedUploadCount();
+        totalDownloadedBytesCount = getLastSavedDownloadCount();
     }
     /**
      * Fetches the port number from the properties file.
@@ -203,6 +209,10 @@ public class UsefulMethods {
     }
 
     public static void saveData() {
+        //update counters
+        props.put(P_LAST_UPLOAD_COUNT, totalUploadedBytesCount + "");
+        props.put(P_LAST_DOWNLOAD_COUNT, totalDownloadedBytesCount + "");
+
         saveProperties();
         saveSavedIPs();
     }
@@ -272,11 +282,15 @@ public class UsefulMethods {
     }
 
     public static boolean getBooleanDefaultTrue(String key) {
-        try {
-            return Boolean.parseBoolean(UsefulMethods.props.getProperty(key));
-        } catch (Exception e) {
-            return true;
+        String value = UsefulMethods.props.getProperty(key);
+
+        if(value != null) {
+            try {
+                return Boolean.parseBoolean(value);
+            } catch (Exception e) {
+            }
         }
+        return true;
     }
 
     public static void browse(String urlStr) {
@@ -332,23 +346,39 @@ public class UsefulMethods {
     }
 
     public static synchronized void addUploadedBytes(long bytes) {
-        uploadedBytesCount += bytes;
+        totalUploadedBytesCount += bytes;
     }
 
     public static synchronized void addDownloadedBytes(long bytes) {
-        downloadedBytesCount += bytes;
+        totalDownloadedBytesCount += bytes;
     }
 
-    public static long getDownloadedBytesCount() {
-        return downloadedBytesCount;
+    public static long getTotalDownloadedBytesCount() {
+        return totalDownloadedBytesCount;
     }
 
-    public static long getUploadedBytesCount() {
-        return uploadedBytesCount;
+    public static long getTotalUploadedBytesCount() {
+        return totalUploadedBytesCount;
     }
 
     public static synchronized void clearCounters() {
-        downloadedBytesCount = 0;
-        uploadedBytesCount = 0;
+        totalDownloadedBytesCount = 0;
+        totalUploadedBytesCount = 0;
+    }
+
+    public static long getLastSavedUploadCount() {
+        try {
+            return Long.parseLong(props.getProperty(P_LAST_UPLOAD_COUNT));
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
+    public static long getLastSavedDownloadCount() {
+        try {
+            return Long.parseLong(props.getProperty(P_LAST_DOWNLOAD_COUNT));
+        } catch(Exception e) {
+            return 0;
+        }
     }
 }
