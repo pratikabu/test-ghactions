@@ -30,6 +30,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
+import net.sf.jsharing.boundary.LogConsole;
 import net.sf.jsharing.boundary.MainWindow;
 import org.apache.log4j.Level;
 import pratikabu.logging.log4j.FileLog;
@@ -65,6 +66,8 @@ public class UsefulMethods {
 
     public static Log log;
 
+    public static LogConsole serverConsole, clientConsole;
+
     public static final String APPLICATION_VERSION = "0.0.1";
 
     private static long totalUploadedBytesCount = 0, totalDownloadedBytesCount = 0;
@@ -91,6 +94,10 @@ public class UsefulMethods {
         //4. load data counters
         totalUploadedBytesCount = getLastSavedUploadCount();
         totalDownloadedBytesCount = getLastSavedDownloadCount();
+
+        //5. load consoles
+        serverConsole = new LogConsole("Server Console");
+        clientConsole = new LogConsole("Client Console");
     }
     /**
      * Fetches the port number from the properties file.

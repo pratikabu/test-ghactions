@@ -5,7 +5,6 @@
 
 package net.sf.jsharing;
 
-import javax.swing.UIManager;
 import net.sf.jsharing.boundary.MainWindow;
 import net.sf.jsharing.boundary.UpdateAvailable;
 import net.sf.jsharing.components.UsefulMethods;
@@ -56,10 +55,6 @@ public class InitializeJShaing {
     }
 
     public static void main(String args[]) {
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch(Exception e){}
-
         initPrerequisiteFiles();
         initMainWindow();
         initSystemIcon();
