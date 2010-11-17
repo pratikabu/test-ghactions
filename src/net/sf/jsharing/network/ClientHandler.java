@@ -37,6 +37,7 @@ public class ClientHandler implements Runnable {
 
     public void startHandling() {
         try {
+            na.message("-------------------------------");
             na.message("Client connected, getting InputStream.");
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
             na.message("Preparing TransferrableObject.");

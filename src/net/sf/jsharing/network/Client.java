@@ -68,6 +68,7 @@ public class Client {
      * @throws IOException
      */
     public void triggerServerTask(TransferrableObject to) throws IOException {
+        na.message("-------------------------------");
         String ip = serverAddress.getHostAddress();
         MainWindow.mw.addConnection(UsefulMethods.getShortNameOfIP(ip), ip, portNumber);
         connectToServer();
