@@ -9,8 +9,11 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
+
 import net.sf.jsharing.boundary.UploadFormPanel;
 
 /**
@@ -27,7 +30,8 @@ public class FileTransferHandler extends TransferHandler {
         fileFlavor = DataFlavor.javaFileListFlavor;
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public boolean importData(JComponent c, Transferable t) {
         if (!canImport(c, t.getTransferDataFlavors())) {
             return false;
@@ -35,7 +39,7 @@ public class FileTransferHandler extends TransferHandler {
         
         try {
             if (hasFileFlavor(t.getTransferDataFlavors())) {
-                java.util.List files = (java.util.List) t.getTransferData(fileFlavor);
+                List files = (List) t.getTransferData(fileFlavor);
                 uploadForm.addFiles(files);
                 return true;
             }
