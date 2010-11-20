@@ -6,12 +6,14 @@
 package net.sf.jsharing.network;
 
 /**
- *
+ * 
  * @author Pratik
  */
 public class DefaultClientActivity implements NetworkActivity {
 
-    public void message(String msg) {}
+	public void message(String msg) {
+	}
 
-    public void processingFile(String fileName) {}
+	public void processingFile(String fileName) {
+	}
 }
