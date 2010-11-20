@@ -46,7 +46,7 @@ public class InitializeJSharing {
         AbstractThread at = AbstractThread.createInstance(new Runnable() {
             public void run() {
                 String version = UsefulMethods.checkForUpdate();
-                if(!version.equals(UsefulMethods.APPLICATION_VERSION))
+                if(version != null && !version.equals(UsefulMethods.APPLICATION_VERSION))
                     new UpdateAvailable(MainWindow.mw, version);
             }
         }, "Checking for updates.", ThreadManager.INTERRUPTIBLE_THREAD);
