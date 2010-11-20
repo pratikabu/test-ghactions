@@ -15,7 +15,7 @@ import pratikabu.threading.ThreadManager;
  *
  * @author Pratik
  */
-public class InitializeJShaing {
+public class InitializeJSharing {
 
     private static void initPrerequisiteFiles() {
         UsefulMethods.loadData();
