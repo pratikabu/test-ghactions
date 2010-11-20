@@ -6,10 +6,11 @@
 package net.sf.jsharing.network;
 
 /**
- *
+ * 
  * @author Pratik
  */
 public interface NetworkActivity {
-    void message(String msg);
-    void processingFile(String fileName);
+	void message(String msg);
+
+	void processingFile(String fileName);
 }
